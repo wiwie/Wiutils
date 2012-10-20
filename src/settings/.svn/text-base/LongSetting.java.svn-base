@@ -1,0 +1,24 @@
+package utils.settings;
+
+import java.text.ParseException;
+
+public class LongSetting extends NumberSetting<Long> {
+
+	public LongSetting(final String name_) {
+		super(name_, null);
+	}
+
+	public LongSetting(final String name_, final Long initValue) {
+		super(name_, initValue);
+	}
+
+	@Override
+	public void parseValueFromString(final String rawString)
+			throws ParseException {
+		try {
+			this.val_ = Long.valueOf(rawString);
+		} catch (final NumberFormatException e) {
+			throw new ParseException(e.getMessage(), 0);
+		}
+	}
+}

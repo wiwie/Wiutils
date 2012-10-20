@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Wiutils.makejar" default="deploy.local" basedir=".">
+	<!-- Load properties -->
+	<property file="build.properties" />
+
+	<target name="makejar" description="Create a jar for the Wiutils project">
+		<jar jarfile="Wiutils.jar" includes="**/*.class" basedir="bin" />
+	</target>
+
+	<target name="deploy.local" depends="makejar" description="Copy to projects">
+		<echo>Copying to project ClusEvalFramework...</echo>
+		<copy todir="${deploy.dir.local.clusEval}">
+			<fileset file="Wiutils.jar" />
+		</copy>
+		<echo>Copying to project ClusEvalFramework_Client...</echo>
+		<copy todir="${deploy.dir.local.clusEvalClient}">
+			<fileset file="Wiutils.jar" />
+		</copy>
+		<echo>Copying to project Hiwi_SVN...</echo>
+		<copy todir="${deploy.dir.local.hiwiSVN}">
+			<fileset file="Wiutils.jar" />
+		</copy>
+		<antcall target="clean" />
+	</target>
+
+	<target name="clean" description="Clean up">
+		<echo>Cleaning up...</echo>
+		<delete file="Wiutils.jar" />
+	</target>
+
+</project>

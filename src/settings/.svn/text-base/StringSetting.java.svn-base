@@ -1,0 +1,21 @@
+package utils.settings;
+
+import java.text.ParseException;
+
+public class StringSetting extends Setting<String> {
+
+	public StringSetting(final String name_) {
+		super(name_, null);
+	}
+
+	public StringSetting(final String name_, final String initValue) {
+		super(name_, initValue);
+	}
+
+	@Override
+	public void parseValueFromString(final String rawString)
+			throws ParseException {
+		this.val_ = rawString;
+	}
+
+}

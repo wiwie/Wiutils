@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/CSB/bol/!svn/ver/415/trunk/JAVA/src/utils/settings
+END
+Setting.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/CSB/bol/!svn/ver/436/trunk/JAVA/src/utils/settings/Setting.java
+END
+DoubleSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/DoubleSetting.java
+END
+StringSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/StringSetting.java
+END
+PathSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/PathSetting.java
+END
+BooleanSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/BooleanSetting.java
+END
+NumberSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/NumberSetting.java
+END
+FloatSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/FloatSetting.java
+END
+LongSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/LongSetting.java
+END
+IntegerSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/CSB/bol/!svn/ver/425/trunk/JAVA/src/utils/settings/IntegerSetting.java
+END

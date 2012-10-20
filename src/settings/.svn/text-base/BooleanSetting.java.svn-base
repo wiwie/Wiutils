@@ -1,0 +1,26 @@
+package utils.settings;
+
+import java.text.ParseException;
+
+public class BooleanSetting extends Setting<Boolean> {
+
+	public BooleanSetting(final String name_) {
+		this(name_, null);
+	}
+
+	public BooleanSetting(final String name_, final Boolean initValue) {
+		super(name_, initValue);
+	}
+
+	@Override
+	public void parseValueFromString(String rawString) throws ParseException {
+		rawString = rawString.toLowerCase();
+		final boolean isTrue = "t".equals(rawString)
+				|| "true".equals(rawString) || "y".equals(rawString);
+		if (!(isTrue || "f".equals(rawString) || "false".equals(rawString) || "n"
+				.equals(rawString))) {
+			throw new ParseException("The given string is no boolean value", 0);
+		}
+		this.val_ = (isTrue ? true : false);
+	}
+}
