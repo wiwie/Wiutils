@@ -31,6 +31,12 @@ public class StringExt {
 		return sb.toString();
 	}
 	
+	/**
+	 * Appends a string to every string in an array.
+	 * @param arr
+	 * @param append
+	 * @return
+	 */
 	public static String[] append(final String[] arr, final String append) {
 		String[] result = new String[arr.length];
 		
