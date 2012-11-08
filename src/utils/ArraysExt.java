@@ -569,7 +569,9 @@ public class ArraysExt {
 	}
 
 	/**
-	 * Returns the index of the input array containing the maximal value.
+	 * Returns the index of the input array containing the maximal value.If
+	 * there are several indices containing the maximal value, the first index
+	 * is returned.
 	 * 
 	 * @param array
 	 *            The input array
@@ -651,37 +653,59 @@ public class ArraysExt {
 	}
 
 	/**
-	 * @param ds
-	 * @param count
-	 * @return
+	 * Append two arrays into one
+	 * 
+	 * @param array1
+	 *            First array
+	 * @param array2
+	 *            Second array
+	 * @return The new array, the concatenation of array1 and array2.
 	 */
-	public static double[] merge(double[] ds, double[] count) {
-		double[] result = new double[ds.length + count.length];
-		for (int pos = 0; pos < ds.length; pos++)
-			result[pos] = ds[pos];
-		for (int pos = 0; pos < count.length; pos++)
-			result[ds.length + pos] = count[pos];
+	public static double[] merge(double[] array1, double[] array2) {
+		double[] result = new double[array1.length + array2.length];
+		for (int pos = 0; pos < array1.length; pos++)
+			result[pos] = array1[pos];
+		for (int pos = 0; pos < array2.length; pos++)
+			result[array1.length + pos] = array2[pos];
 		return result;
 	}
 
 	/**
-	 * @param ds
-	 * @param count
-	 * @return
+	 * Append two arrays into one
+	 * 
+	 * @param array1
+	 *            First array
+	 * @param array2
+	 *            Second array
+	 * @return The new array, the concatenation of array1 and array2.
 	 */
-	public static int[] merge(int[] ds, int[] count) {
-		int[] result = new int[ds.length + count.length];
-		for (int pos = 0; pos < ds.length; pos++)
-			result[pos] = ds[pos];
-		for (int pos = 0; pos < count.length; pos++)
-			result[ds.length + pos] = count[pos];
+	public static int[] merge(int[] array1, int[] array2) {
+		int[] result = new int[array1.length + array2.length];
+		for (int pos = 0; pos < array1.length; pos++)
+			result[pos] = array1[pos];
+		for (int pos = 0; pos < array2.length; pos++)
+			result[array1.length + pos] = array2[pos];
 		return result;
 	}
 
+	/**
+	 * Returns the minimal value contained in the input values.
+	 * 
+	 * @param array
+	 *            The input values
+	 * @return The minimal value
+	 */
 	public static double min(double... array) {
 		return array[minPos(array)];
 	}
 
+	/**
+	 * Returns the minimal value contained in the input values.
+	 * 
+	 * @param array
+	 *            The input values
+	 * @return The minimal value
+	 */
 	public static double min(double[][] array) {
 		double result = Double.MAX_VALUE;
 		for (double[] subArray : array)
@@ -690,8 +714,11 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns the minimal value contained in the input values.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input values
+	 * @return The minimal value
 	 */
 	public static int min(int... array) {
 		if (array.length == 0)
@@ -704,8 +731,13 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns the index of the input array containing the minimal value. If
+	 * there are several indices containing the minimal value, the first index
+	 * is returned.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array
+	 * @return The index containing the minimal value.
 	 */
 	public static int minPos(double... array) {
 		if (array.length == 0)
@@ -722,6 +754,15 @@ public class ArraysExt {
 		return minX;
 	}
 
+	/**
+	 * Returns an array containing the entries powered with an exponent.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param exp
+	 *            The exponent.
+	 * @return The array containing the powered entries.
+	 */
 	public static double[] pow(double[] array, double exp) {
 		double[] result = new double[array.length];
 		for (int pos = 0; pos < result.length; pos++)
@@ -729,6 +770,15 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Returns an array containing the entries powered with an exponent.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param exp
+	 *            The exponent.
+	 * @return The array containing the powered entries.
+	 */
 	public static double[][] pow(double[][] array, double exp) {
 		double[][] result = new double[array.length][];
 		for (int pos = 0; pos < result.length; pos++)
@@ -736,6 +786,15 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Returns an array containing the entries powered with an exponent.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param exp
+	 *            The exponent.
+	 * @return The array containing the powered entries.
+	 */
 	public static long[] pow(int[] array, double exp) {
 		long[] result = new long[array.length];
 		for (int pos = 0; pos < result.length; pos++)
@@ -744,75 +803,111 @@ public class ArraysExt {
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an array to the systems output stream.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static void print(double[] degrees) {
-		System.out.println(ArraysExt.toString(degrees));
+	public static void print(double[] array) {
+		System.out.println(ArraysExt.toString(array));
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an array to the systems output stream.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param precision
+	 *            The precision to be used when printing double values.
 	 */
-	public static void print(double[] degrees, int precision) {
-		System.out.println(ArraysExt.toString(degrees, precision));
+	public static void print(double[] array, int precision) {
+		System.out.println(ArraysExt.toString(array, precision));
 	}
 
 	/**
-	 * @param degrees
+	 * Prints a two-dimensional array to the systems output stream. Subarrays
+	 * are printed row-wise.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static void print(double[][] degrees) {
+	public static void print(double[][] array) {
 		System.out.println("[");
-		for (double[] bla : degrees)
+		for (double[] bla : array)
 			print(bla);
 		System.out.println("]");
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an array to the systems output stream.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static void print(int[] degrees) {
-		System.out.println(Arrays.toString(degrees));
+	public static void print(int[] array) {
+		System.out.println(Arrays.toString(array));
 	}
 
 	/**
-	 * @param degrees
+	 * Prints a two-dimensional array to the systems output stream. Subarrays
+	 * are printed row-wise.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static void print(int[][] degrees) {
+	public static void print(int[][] array) {
 		System.out.println("[");
-		for (int[] bla : degrees)
+		for (int[] bla : array)
 			print(bla);
 		System.out.println("]");
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an array to the systems output stream.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static void print(long[] degrees) {
-		System.out.println(Arrays.toString(degrees));
+	public static void print(long[] array) {
+		System.out.println(Arrays.toString(array));
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an array to the systems output stream.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static <T> void print(T[] degrees) {
-		System.out.println(Arrays.toString(degrees));
+	public static <T> void print(T[] array) {
+		System.out.println(Arrays.toString(array));
 	}
 
 	/**
-	 * @param degrees
+	 * Prints an two-dimensional array to the systems output stream. Subarrays
+	 * are printed row-wise.
+	 * 
+	 * @param array
+	 *            The input array.
 	 */
-	public static <T> void print(T[][] degrees) {
+	public static <T> void print(T[][] array) {
 		System.out.println("[");
-		for (T[] bla : degrees)
+		for (T[] bla : array)
 			print(bla);
 		System.out.println("]");
 	}
 
 	/**
+	 * Returns an array containing double values between a start value and an
+	 * end value with a certain stepsize. TODO: inclusive /exclusive end?
+	 * 
 	 * @param start
+	 *            The first double value
 	 * @param end
+	 *            The last double value
 	 * @param stepsize
-	 * @return
+	 *            The step size between double values of the array
+	 * @return An array containing the double values.
+	 * 
 	 */
 	public static double[] range(double start, double end, double stepsize) {
 		double[] result = new double[(int) (end / stepsize)
@@ -824,11 +919,19 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing a certain number of double values between a
+	 * start value and an end value.
+	 * 
 	 * @param start
+	 *            The first double value
 	 * @param end
+	 *            The last double value
 	 * @param count
+	 *            The number of values in the result array.
 	 * @param inclusiveEnd
-	 * @return
+	 *            If true, the last value of the array will be the end value.
+	 * @return An array containing the double values.
+	 * 
 	 */
 	public static double[] range(double start, double end, int count,
 			boolean inclusiveEnd) {
@@ -844,10 +947,32 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Returns an array with integer values between start and end and a stepsize
+	 * of 1.
+	 * 
+	 * @param start
+	 *            The start value
+	 * @param end
+	 *            The end value
+	 * @return The result array.
+	 */
 	public static int[] range(int start, int end) {
 		return range(start, end, 1);
 	}
 
+	/**
+	 * Returns an array with integer values between start and end and a stepsize
+	 * of 1.
+	 * 
+	 * @param start
+	 *            The start value
+	 * @param end
+	 *            The end value
+	 * @param stepsize
+	 *            The step size between the values of the result array.
+	 * @return The result array.
+	 */
 	public static int[] range(int start, int end, int stepsize) {
 		int[] result = new int[(end - start) / stepsize];
 		for (int i = 0; i < result.length; i++) {
@@ -857,18 +982,50 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing a certain number of integer values between a
+	 * start value and an end value without duplicates.
+	 * 
 	 * @param start
+	 *            The first integer value
 	 * @param end
+	 *            The last integer value
 	 * @param count
+	 *            The number of values in the result array.
 	 * @param inclusiveEnd
-	 * @return
+	 *            If true, the last value of the array will be the end value.
+	 * @return An array containing the integer values.
 	 * @throws RangeCreationException
+	 *             This exception is thrown, if it is impossible to create an
+	 *             array of integer values with that many values between start
+	 *             and end without duplicates.
+	 * 
 	 */
 	public static int[] range(int start, int end, int count,
 			boolean inclusiveEnd) throws RangeCreationException {
 		return range(start, end, count, inclusiveEnd, true);
 	}
 
+	/**
+	 * Returns an array containing a certain number of integer values between a
+	 * start value and an end value.
+	 * 
+	 * @param start
+	 *            The first integer value
+	 * @param end
+	 *            The last integer value
+	 * @param count
+	 *            The number of values in the result array.
+	 * @param inclusiveEnd
+	 *            If true, the last value of the array will be the end value.
+	 * @param noDuplicates
+	 *            If true, the result array should not contain duplicate values.
+	 * @return An array containing the integer values.
+	 * @throws RangeCreationException
+	 *             This exception is thrown, if it is impossible to create an
+	 *             array of integer values with that many values between start
+	 *             and end.
+	 * 
+	 */
 	public static int[] range(int start, int end, int count,
 			boolean inclusiveEnd, boolean noDuplicates)
 			throws RangeCreationException {
@@ -880,16 +1037,15 @@ public class ArraysExt {
 		return result;
 	}
 
-	public static double[] rangeOld(double start, double end, int count,
-			boolean inclusiveEnd) {
-		double[] result = new double[count];
-		double stepsize = (end - start) / (inclusiveEnd ? count - 1 : count);
-		for (int i = 0; i < result.length; i++) {
-			result[i] = start + i * stepsize;
-		}
-		return result;
-	}
-
+	/**
+	 * Create an array of a value repeated a certain number of times.
+	 * 
+	 * @param val
+	 *            The double value to be repeated
+	 * @param times
+	 *            Number of times the double value should be repated
+	 * @return The result array.
+	 */
 	public static double[] rep(double val, int times) {
 		double[] result = new double[(times > 0 ? times : 0)];
 
@@ -900,18 +1056,31 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
 	 * @param array
+	 *            The input array.
 	 * @param factor
-	 * @return
+	 *            The scaling factor.
+	 * @return The result array.
 	 */
 	public static double[] scaleBy(double[] array, double factor) {
 		return ArraysExt.scaleBy(array, factor, true);
 	}
 
 	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
 	 * @param array
+	 *            The input array.
 	 * @param factor
-	 * @return
+	 *            The scaling factor.
+	 * @param down
+	 *            If true, the entries of the array are divided by the factor,
+	 *            otherwise it is multiplied.
+	 * @return The result array.
 	 */
 	public static double[] scaleBy(double[] array, double factor, boolean down) {
 		double[] result = new double[array.length];
@@ -923,6 +1092,16 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param factor
+	 *            The scaling factor.
+	 * @return The result array.
+	 */
 	public static double[][] scaleBy(double[][] array, double factor) {
 		double[][] result = new double[array.length][];
 
@@ -934,14 +1113,30 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
 	 * @param array
+	 *            The input array.
 	 * @param factor
-	 * @return
+	 *            The scaling factor.
+	 * @return The result array.
 	 */
 	public static double[] scaleBy(int[] array, double factor) {
 		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor);
 	}
 
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i]=template[i]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @return The result array
+	 */
 	public static double[] subtract(double subtract, double[] template) {
 		double[] result = new double[template.length];
 		for (int i = 0; i < template.length; i++)
@@ -949,6 +1144,17 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i][j]=template[i][j]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @return The result array
+	 */
 	public static double[][] subtract(double subtract, double[][] template) {
 		double[][] result = new double[template.length][];
 		for (int i = 0; i < template.length; i++) {
@@ -959,6 +1165,17 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i]=template[i]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @return The result array
+	 */
 	public static double[] subtract(double[] template, double subtract) {
 		double[] result = new double[template.length];
 		for (int i = 0; i < template.length; i++)
@@ -966,10 +1183,35 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts double values from elements of the input array, such that
+	 * result[i]=template[i]-subtract[i].
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The array with double values to add to the elements of the
+	 *            input array
+	 * @return The result array
+	 */
 	public static double[] subtract(double[] template, double[] subtract) {
 		return subtract(template, subtract, false);
 	}
 
+	/**
+	 * Subtracts double values from elements of the input array, such that
+	 * result[i]=template[i]-subtract[i].
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The array with double values to add to the elements of the
+	 *            input array
+	 * @param common
+	 *            If true, the length of the result array is the minimum of the
+	 *            lengths of the two arrays.
+	 * @return The result array
+	 */
 	public static double[] subtract(double[] template, double[] subtract,
 			boolean common) {
 		double[] result = new double[common ? Math.min(template.length,
@@ -981,6 +1223,17 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i][j]=template[i][j]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @return The result array
+	 */
 	public static double[][] subtract(double[][] template, double subtract) {
 		double[][] result = new double[template.length][];
 		for (int i = 0; i < result.length; i++)
@@ -988,6 +1241,17 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts double values from elements of the input array, such that
+	 * result[i][j]=template[i][j]-subtract[i][j].
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The array with double values to add to the elements of the
+	 *            input array
+	 * @return The result array
+	 */
 	public static double[][] subtract(double[][] template, double[][] subtract) {
 		double[][] result = new double[template.length][];
 		for (int i = 0; i < result.length; i++)
@@ -995,6 +1259,17 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i]=template[i]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @return The result array
+	 */
 	public static int[] subtract(int[] template, int subtract) {
 		int[] result = new int[template.length];
 		for (int i = 0; i < template.length; i++)
@@ -1002,6 +1277,13 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Calculates the sum of the input array
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The sum of the values in the input array.
+	 */
 	public static double sum(double[] array) {
 		double result = 0.0;
 		for (double d : array)
@@ -1009,6 +1291,13 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Calculates the sum of the input array
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The sum of the values in the input array.
+	 */
 	public static double sum(double[][] array) {
 		double result = 0.0;
 		for (double[] d : array)
@@ -1017,8 +1306,11 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Calculates the sum of the input array
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The sum of the values in the input array.
 	 */
 	public static long sum(int[] array) {
 		long result = 0;
@@ -1028,8 +1320,11 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Calculates the sum of the input array
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The sum of the values in the input array.
 	 */
 	public static long sum(int[][] array) {
 		long result = 0;
@@ -1039,8 +1334,11 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Calculates the sum of the input array
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The sum of the values in the input array.
 	 */
 	public static long sum(long[] array) {
 		long result = 0;
@@ -1049,123 +1347,77 @@ public class ArraysExt {
 		return result;
 	}
 
-	public static String SVD_LP(int[][] array) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("min: x11;\n\n");
-
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				sb.append("x" + i + j + " = " + array[i][j] + ";\n");
-			}
-		}
-
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				sb.append("x" + i + j + " = ");
-				for (int x = 0; x < array.length; x++)
-					sb.append("u" + i + x + " d" + x + " v" + x + j + " +");
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(";\n");
-			}
-		}
-
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array.length; j++) {
-				sb.append("u" + i + j + " >= 0;\n");
-			}
-		}
-
-		for (int i = 0; i < array[0].length; i++) {
-			for (int j = 0; j < array[0].length; j++) {
-				sb.append("v" + i + j + " >= 0;\n");
-			}
-		}
-
-		for (int i = 0; i < Math.min(array.length, array[0].length); i++) {
-			sb.append("d" + i + " >= 0;\n");
-		}
-
-		sb.append("int ");
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				sb.append("x" + i + j + ", ");
-			}
-		}
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array.length; j++) {
-				sb.append("u" + i + j + ", ");
-			}
-		}
-
-		for (int i = 0; i < array[0].length; i++) {
-			for (int j = 0; j < array[0].length; j++) {
-				sb.append("v" + i + j + ", ");
-			}
-		}
-
-		for (int i = 0; i < Math.min(array.length, array[0].length); i++) {
-			sb.append("d" + i + ", ");
-		}
-		sb.deleteCharAt(sb.length() - 1);
-		sb.deleteCharAt(sb.length() - 1);
-		sb.append(";");
-
-		return sb.toString();
-	}
-
 	/**
-	 * @param <T>
-	 * @param list
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T[] toArray(List<T> list) {
-		if (list.size() == 0)
-			return null;
-		T[] arr = (T[]) java.lang.reflect.Array.newInstance(list.get(0)
-				.getClass(), list.size());
-		for (int i = 0; i < list.size(); i++)
-			arr[i] = list.get(i);
-		return arr;
-	}
-
-	public static double[] toDoubleArray(int[] arr) {
-		double[] result = new double[arr.length];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = arr[i];
-		}
-		return result;
-	}
-
-	public static double[][] toDoubleArray(int[][] arr) {
-		double[][] result = new double[arr.length][];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = toDoubleArray(arr[i]);
-		}
-		return result;
-	}
-
-	public static double[] toDoubleArray(long[] arr) {
-		double[] result = new double[arr.length];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = arr[i];
-		}
-		return result;
-	}
-
-	public static double[][] toDoubleArray(long[][] arr) {
-		double[][] result = new double[arr.length][];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = toDoubleArray(arr[i]);
-		}
-		return result;
-	}
-
-	/**
+	 * Returns an array containing the double casted values of the input array.
+	 * 
 	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static double[] toDoubleArray(int[] array) {
+		double[] result = new double[array.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array containing the double casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static double[][] toDoubleArray(int[][] array) {
+		double[][] result = new double[array.length][];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = toDoubleArray(array[i]);
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array containing the double casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static double[] toDoubleArray(long[] array) {
+		double[] result = new double[array.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array containing the double casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static double[][] toDoubleArray(long[][] array) {
+		double[][] result = new double[array.length][];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = toDoubleArray(array[i]);
+		}
+		return result;
+	}
+
+	/**
+	 * Calculates the histogram of the given array with the given number of
+	 * buckets.
+	 * 
+	 * @param array
+	 *            The input array.
 	 * @param buckets
-	 * @return
+	 *            The number of buckets.
+	 * @return The first element of the result pair is a double array containing
+	 *         the x-ticks of the histogram and the second element the number of
+	 *         occurrences of these x-ticks.
 	 */
 	public static Pair<double[], int[]> toHistogram(final double[] array,
 			final int buckets) {
@@ -1185,6 +1437,13 @@ public class ArraysExt {
 		return Pair.getPair(minValues, result);
 	}
 
+	/**
+	 * Returns an array containing the integer casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
 	public static int[] toIntArray(double[] array) {
 		int[] result = new int[array.length];
 
@@ -1196,8 +1455,12 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing the primitive double values of the Double
+	 * objects of the input array.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The result array.
 	 */
 	public static double[] toPrimitive(final Double[] array) {
 		double[] arr = new double[array.length];
@@ -1207,8 +1470,12 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing the primitive float values of the Float
+	 * objects of the input array.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The result array.
 	 */
 	public static float[] toPrimitive(final Float[] array) {
 		float[] arr = new float[array.length];
@@ -1218,8 +1485,12 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing the primitive integer values of the Integer
+	 * objects of the input array.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The result array.
 	 */
 	public static int[] toPrimitive(final Integer[] array) {
 		int[] arr = new int[array.length];
@@ -1229,8 +1500,12 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing the primitive long values of the Long objects
+	 * of the input array.
+	 * 
 	 * @param array
-	 * @return
+	 *            The input array.
+	 * @return The result array.
 	 */
 	public static long[] toPrimitive(final Long[] array) {
 		long[] arr = new long[array.length];
@@ -1407,6 +1682,13 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Removes all duplicates from the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The input array without duplicates.
+	 */
 	public static double[] unique(double[] array) {
 		Set<Double> list = new HashSet<Double>();
 		for (double d : array) {
@@ -1416,6 +1698,13 @@ public class ArraysExt {
 		return result;
 	}
 
+	/**
+	 * Removes all duplicates from the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The input array without duplicates.
+	 */
 	public static int[] unique(int[] array) {
 		Set<Integer> list = new HashSet<Integer>();
 		for (int d : array) {
