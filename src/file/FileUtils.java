@@ -12,8 +12,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Christian Wiwie
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class FileUtils {
 
-	protected static Map<File, File> lockedFiles = new HashMap<File, File>();
+	protected static Map<File, File> lockedFiles = new ConcurrentHashMap<File, File>();
 
 	public static File getCommonFile(final File file) {
 		if (lockedFiles.containsKey(file)) {

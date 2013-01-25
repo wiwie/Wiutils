@@ -9,16 +9,9 @@ import org.junit.Test;
 
 /**
  * @author Christian Wiwie
- * 
+ * w
  */
 public class TestArraysExt {
-
-	@Test
-	public void testDoubleRange() throws RangeCreationException {
-		double[] range = ArraysExt.range(0.0, 1.0, 10, true);
-		double[] rangeOld = ArraysExt.rangeOld(0.0, 1.0, 10, true);
-		ArrayAssert.assertEquals(range, rangeOld, 0.00000001);
-	}
 
 	@Test
 	public void testDoubleRange2() throws RangeCreationException {

@@ -2,6 +2,12 @@ package utils;
 
 import java.io.Serializable;
 
+/**
+ * @author Christian Wiwie
+ *
+ * @param <T>
+ * @param <U>
+ */
 public final class Pair<T, U> implements Serializable {
 
 	/**
