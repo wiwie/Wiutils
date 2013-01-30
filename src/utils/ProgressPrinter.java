@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 //import utils.Log.PRIORITY;
 
 public final class ProgressPrinter implements ChangeListener {
-	
+
 	/**
 	 * @param progress
 	 *            The ProgressPrinter that is to be initialized
@@ -59,6 +59,15 @@ public final class ProgressPrinter implements ChangeListener {
 		this(upperLimit, printOnNewPercent, null);
 	}
 
+	/**
+	 * @param upperLimit
+	 *            A number corresponding to 100% progress.
+	 * @param printOnNewPercent
+	 *            A boolean indicating, whether to print information on the
+	 *            screen if a new percentage is reached.
+	 * @param linePrefix
+	 *            The prefix that should be put in front of every posted line.
+	 */
 	public ProgressPrinter(final long upperLimit,
 			final boolean printOnNewPercent, final String linePrefix) {
 		super();
@@ -68,6 +77,16 @@ public final class ProgressPrinter implements ChangeListener {
 		this.printOnNewPercent = printOnNewPercent;
 		this.linePrefix = linePrefix;
 		this.log = LoggerFactory.getLogger(this.getClass());
+	}
+
+	/**
+	 * The copy constructor of progress printers.
+	 * 
+	 * @param other
+	 *            The progress printer to copy.
+	 */
+	public ProgressPrinter(final ProgressPrinter other) {
+		this(other.upperLimit, other.printOnNewPercent, other.linePrefix);
 	}
 
 	public void addChangeListener(final ChangeListener listener) {
@@ -171,35 +190,34 @@ public final class ProgressPrinter implements ChangeListener {
 				while (newPercent > this.percent) {
 					if (((this.percent) % 10 == 0 && this.percent > 0)
 							|| (this.optStatus != null && newLineOnOptStatus)) {
-//						Log.println(PRIORITY.PROGRESS);
+						// Log.println(PRIORITY.PROGRESS);
 						if (this.linePrefix != null) {
-//							Log.print(this.linePrefix, PRIORITY.PROGRESS);
+							// Log.print(this.linePrefix, PRIORITY.PROGRESS);
 						}
 					}
 					this.percent++;
 					if (this.percent < 100) {
-//						Log.print(this.percent
-//								+ "%"
-//								+ (this.optStatus != null ? " ["
-//										+ this.optStatus + "]" : "") + "\t",
-//								PRIORITY.PROGRESS);
+						// Log.print(this.percent
+						// + "%"
+						// + (this.optStatus != null ? " ["
+						// + this.optStatus + "]" : "") + "\t",
+						// PRIORITY.PROGRESS);
 						log.debug(this.percent
 								+ "%"
 								+ (this.optStatus != null ? " ["
 										+ this.optStatus + "]" : "") + "\t");
 					} else {
-//						Log.print(
-//								this.percent
-//										+ "%"
-//										+ (this.optStatus != null ? " ["
-//												+ this.optStatus + "]" : "")
-//										+ System.getProperty("line.separator"),
-//								PRIORITY.PROGRESS);
-						log.debug(
-								this.percent
-										+ "%"
-										+ (this.optStatus != null ? " ["
-												+ this.optStatus + "]" : ""));
+						// Log.print(
+						// this.percent
+						// + "%"
+						// + (this.optStatus != null ? " ["
+						// + this.optStatus + "]" : "")
+						// + System.getProperty("line.separator"),
+						// PRIORITY.PROGRESS);
+						log.debug(this.percent
+								+ "%"
+								+ (this.optStatus != null ? " ["
+										+ this.optStatus + "]" : ""));
 					}
 				}
 			} else {

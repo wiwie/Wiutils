@@ -3,6 +3,7 @@
  */
 package utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -661,6 +662,24 @@ public class ArraysExt {
 	 *            Second array
 	 * @return The new array, the concatenation of array1 and array2.
 	 */
+	public static String[] merge(String[] array1, String[] array2) {
+		String[] result = new String[array1.length + array2.length];
+		for (int pos = 0; pos < array1.length; pos++)
+			result[pos] = array1[pos];
+		for (int pos = 0; pos < array2.length; pos++)
+			result[array1.length + pos] = array2[pos];
+		return result;
+	}
+
+	/**
+	 * Append two arrays into one
+	 * 
+	 * @param array1
+	 *            First array
+	 * @param array2
+	 *            Second array
+	 * @return The new array, the concatenation of array1 and array2.
+	 */
 	public static double[] merge(double[] array1, double[] array2) {
 		double[] result = new double[array1.length + array2.length];
 		for (int pos = 0; pos < array1.length; pos++)
@@ -1043,6 +1062,24 @@ public class ArraysExt {
 	 * @param val
 	 *            The double value to be repeated
 	 * @param times
+	 *            Number of times the integer value should be repated
+	 * @return The result array.
+	 */
+	public static int[] rep(int val, int times) {
+		int[] result = new int[(times > 0 ? times : 0)];
+
+		for (int i = 0; i < result.length; i++)
+			result[i] = val;
+
+		return result;
+	}
+
+	/**
+	 * Create an array of a value repeated a certain number of times.
+	 * 
+	 * @param val
+	 *            The double value to be repeated
+	 * @param times
 	 *            Number of times the double value should be repated
 	 * @return The result array.
 	 */
@@ -1124,6 +1161,40 @@ public class ArraysExt {
 	 */
 	public static double[] scaleBy(int[] array, double factor) {
 		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor);
+	}
+
+	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param factor
+	 *            The scaling factor.
+	 * @param down
+	 *            If true, the values in the input array are divided by the
+	 *            factor, otherwise they are multiplied.
+	 * @return The result array.
+	 */
+	public static double[] scaleBy(int[] array, double factor, boolean down) {
+		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor, down);
+	}
+
+	/**
+	 * Returns an array containing the square-roots of the values of the input
+	 * array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static double[] sqrt(int[] array) {
+		double[] result = new double[array.length];
+
+		for (int i = 0; i < result.length; i++)
+			result[i] = Math.sqrt(array[i]);
+
+		return result;
 	}
 
 	/**
@@ -1260,13 +1331,13 @@ public class ArraysExt {
 	}
 
 	/**
-	 * Subtracts a double value from every element of the array, such that
+	 * Subtracts a integer value from every element of the array, such that
 	 * result[i]=template[i]-subtract.
 	 * 
 	 * @param template
 	 *            The input array
 	 * @param subtract
-	 *            The double value to subtract from the elements of the input
+	 *            The integer value to subtract from the elements of the input
 	 *            array
 	 * @return The result array
 	 */
@@ -1274,6 +1345,24 @@ public class ArraysExt {
 		int[] result = new int[template.length];
 		for (int i = 0; i < template.length; i++)
 			result[i] = template[i] - subtract;
+		return result;
+	}
+
+	/**
+	 * Subtracts the integer values of a second array from the elements of the
+	 * first array, such that result[i]=template[i]-subtract[i].
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The array containing the elements to subtract from the
+	 *            elements of the input array
+	 * @return The result array
+	 */
+	public static int[] subtract(int[] template, int[] subtract) {
+		int[] result = new int[template.length];
+		for (int i = 0; i < template.length; i++)
+			result[i] = template[i] - subtract[i];
 		return result;
 	}
 
@@ -1690,9 +1779,11 @@ public class ArraysExt {
 	 * @return The input array without duplicates.
 	 */
 	public static double[] unique(double[] array) {
-		Set<Double> list = new HashSet<Double>();
+		Set<Double> set = new HashSet<Double>();
+		List<Double> list = new ArrayList<Double>();
 		for (double d : array) {
-			list.add(d);
+			if (set.add(d))
+				list.add(d);
 		}
 		double[] result = ArraysExt.toPrimitive(list.toArray(new Double[0]));
 		return result;
@@ -1706,9 +1797,11 @@ public class ArraysExt {
 	 * @return The input array without duplicates.
 	 */
 	public static int[] unique(int[] array) {
-		Set<Integer> list = new HashSet<Integer>();
+		Set<Integer> set = new HashSet<Integer>();
+		List<Integer> list = new ArrayList<Integer>();
 		for (int d : array) {
-			list.add(d);
+			if (set.add(d))
+				list.add(d);
 		}
 		int[] result = ArraysExt.toPrimitive(list.toArray(new Integer[0]));
 		return result;
