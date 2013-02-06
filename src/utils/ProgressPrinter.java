@@ -309,8 +309,7 @@ public final class ProgressPrinter implements ChangeListener {
 		long sumOfSubProgresses = 0L;
 		this.currentPos = 0;
 		for (final ProgressPrinter subProgress : this.subProgress.keySet()) {
-			double percentFinishedSubProgress = subProgress.currentPos
-					/ (double) subProgress.upperLimit;
+			double percentFinishedSubProgress = subProgress.getPercent() / 100.0;
 			long totalNumberStepsSubProgress = this.subProgress
 					.get(subProgress);
 			this.currentPos += (percentFinishedSubProgress * totalNumberStepsSubProgress);
