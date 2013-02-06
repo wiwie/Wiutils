@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cern.colt.function.tdouble.DoubleProcedure;
+import cern.colt.list.tdouble.DoubleArrayList;
 
 /**
  * @author Christian Wiwie
@@ -244,12 +245,9 @@ public class SimilarityMatrix {
 	 */
 	public List<Double> toOrderedList() {
 		List<Double> distr = new ArrayList<Double>();
-		for (int i = 0; i < this.sparseMatrix.elements().values().size(); i++) {
-			// for (int i = 0; i < this.ids.size(); i++) {
-			// for (int j = i; j < this.ids.size(); j++) {
-			// distr.add(this.getSimilarity(i, j));
-			distr.add(this.sparseMatrix.elements().values().get(i));
-			// }
+		DoubleArrayList list = this.sparseMatrix.elements().values();
+		for (int i = 0; i < list.size(); i++) {
+			distr.add(list.get(i));
 		}
 		Collections.sort(distr);
 		return distr;
