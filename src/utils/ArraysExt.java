@@ -594,6 +594,21 @@ public class ArraysExt {
 	}
 
 	/**
+	 * @param array
+	 *            The input array.
+	 * @return An array containing only the entries that are not equal to NaN.
+	 */
+	public static double[] removeNA(final double... array) {
+		final List<Double> result = new ArrayList<Double>();
+
+		for (double d : array)
+			if (!Double.isNaN(d) && !Double.isInfinite(d))
+				result.add(d);
+
+		return ArraysExt.toPrimitive(result.toArray(new Double[0]));
+	}
+
+	/**
 	 * Returns the mean of the values in the given array.
 	 * 
 	 * @param array
@@ -601,7 +616,21 @@ public class ArraysExt {
 	 * @return The mean of the input array.
 	 */
 	public static double mean(double... array) {
-		return (sum(array)) / array.length;
+		return mean(true, array);
+	}
+
+	/**
+	 * Returns the mean of the values in the given array.
+	 * 
+	 * @param removeNA
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The mean of the input array.
+	 */
+	public static double mean(boolean removeNA, double... array) {
+		double[] withoutNA = removeNA ? removeNA(array) : array;
+		return (sum(withoutNA)) / withoutNA.length;
 	}
 
 	/**
@@ -651,6 +680,36 @@ public class ArraysExt {
 	 */
 	public static double mean(long... array) {
 		return ((double) sum(array)) / array.length;
+	}
+
+	/**
+	 * Returns the variance of the values in the given array.
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The variance of the input array.
+	 */
+	public static double variance(double... array) {
+		return variance(true, array);
+	}
+
+	/**
+	 * Returns the variance of the values in the given array.
+	 * 
+	 * @param removeNA
+	 *            Whether to ignore NaN entries in the input array.
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The variance of the input array.
+	 */
+	public static double variance(boolean removeNA, double... array) {
+		double[] withoutNA = removeNA ? removeNA(array) : array;
+		double result = 0.0;
+		double mean = mean(withoutNA);
+		for (double d : withoutNA)
+			result += Math.pow(d - mean, 2.0);
+		return result / withoutNA.length;
 	}
 
 	/**
@@ -1374,9 +1433,53 @@ public class ArraysExt {
 	 * @return The sum of the values in the input array.
 	 */
 	public static double sum(double[] array) {
+		return sum(true, array);
+	}
+
+	/**
+	 * Calculates the sum of the input array
+	 * 
+	 * @param removeNA
+	 *            Whether to ignore NaN entries in the array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The sum of the values in the input array.
+	 */
+	public static double sum(boolean removeNA, double[] array) {
+		double[] withoutNA = removeNA ? removeNA(array) : array;
 		double result = 0.0;
+		for (double d : withoutNA)
+			if (!removeNA || d != Double.NaN)
+				result += d;
+		return result;
+	}
+
+	/**
+	 * Calculates the product of the input array
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The product of the values in the input array.
+	 */
+	public static long product(int[] array) {
+		long result = 1;
+		for (int d : array)
+			result *= d;
+		return result;
+	}
+
+	/**
+	 * Calculates the product of the input array
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The product of the values in the input array.
+	 */
+	public static double product(double[] array) {
+		double result = 1.0;
 		for (double d : array)
-			result += d;
+			result *= d;
 		return result;
 	}
 
@@ -1437,6 +1540,21 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array containing the float casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static float[] toFloatArray(double[] array) {
+		float[] result = new float[array.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = (float) array[i];
+		}
+		return result;
+	}
+
+	/**
 	 * Returns an array containing the double casted values of the input array.
 	 * 
 	 * @param array
@@ -1447,6 +1565,21 @@ public class ArraysExt {
 		double[] result = new double[array.length];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array containing the float casted values of the input array.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @return The result array.
+	 */
+	public static float[][] toFloatArray(double[][] array) {
+		float[][] result = new float[array.length][];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = toFloatArray(array[i]);
 		}
 		return result;
 	}

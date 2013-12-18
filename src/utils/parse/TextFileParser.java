@@ -57,6 +57,8 @@ public abstract class TextFileParser {
 	/** The percent. */
 	protected long currentLine = -1, percent = 0;
 
+	protected long parsedLines = 0;
+
 	/** The progress. */
 	protected ProgressPrinter progress;
 
@@ -125,7 +127,29 @@ public abstract class TextFileParser {
 	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
 			final int[] valueColumnIds, final boolean splitLines)
 			throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null);
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null,
+				null);
+	}
+
+	/**
+	 * Instantiates a new text file parser.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param keyColumnIds
+	 *            the key column ids
+	 * @param valueColumnIds
+	 *            the value column ids
+	 * @param splitLines
+	 * @param splitChar
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds, final boolean splitLines,
+			final String splitChar) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, splitChar,
+				null, null);
 	}
 
 	/**
@@ -147,7 +171,7 @@ public abstract class TextFileParser {
 	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
 			final int[] valueColumnIds, final String outputFile,
 			final OUTPUT_MODE outputMode) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, true, outputFile,
+		this(absFilePath, keyColumnIds, valueColumnIds, true, null, outputFile,
 				outputMode);
 	}
 
@@ -162,6 +186,7 @@ public abstract class TextFileParser {
 	 *            the value column ids
 	 * @param splitLines
 	 *            the split lines
+	 * @param splitChar
 	 * @param outputFile
 	 *            the output file
 	 * @param outputMode
@@ -171,8 +196,8 @@ public abstract class TextFileParser {
 	 */
 	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
 			final int[] valueColumnIds, final boolean splitLines,
-			final String outputFile, final OUTPUT_MODE outputMode)
-			throws IOException {
+			final String splitChar, final String outputFile,
+			final OUTPUT_MODE outputMode) throws IOException {
 		super();
 		this.log = LoggerFactory.getLogger(this.getClass());
 		this.setFile(absFilePath);
@@ -198,7 +223,10 @@ public abstract class TextFileParser {
 		}
 		this.splitLines = splitLines;
 		if (this.splitLines) {
-			this.tryFindSplit();
+			if (splitChar != null)
+				this.inSplit = splitChar;
+			else
+				this.tryFindSplit();
 		}
 		// this.totalLineCount = this.getTotalLineCount();
 		this.progress = new ProgressPrinter(this.totalLineCount, true, "");
@@ -218,6 +246,7 @@ public abstract class TextFileParser {
 			throws IOException {
 		String output = null;
 		if ((output = this.getLineOutput(key, value)) != null) {
+			this.parsedLines++;
 			this.outputWriter.write(output);
 		}
 	}
@@ -659,6 +688,16 @@ public abstract class TextFileParser {
 	 */
 	public void setOutputFile(final String outFile) {
 		this.outputFile = outFile;
+	}
+
+	/**
+	 * Gets the output file.
+	 * 
+	 * @return
+	 * 
+	 */
+	public String getOutputFile() {
+		return this.outputFile;
 	}
 
 	/**

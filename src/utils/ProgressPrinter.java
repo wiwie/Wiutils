@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author Christian Wiwie
  * 
  */
-public final class ProgressPrinter implements ChangeListener {
+public class ProgressPrinter implements ChangeListener {
 
 	/**
 	 * A factory method to initialize the attributes of the first progess
@@ -344,12 +344,12 @@ public final class ProgressPrinter implements ChangeListener {
 				while (newPercent > this.percent) {
 					this.percent++;
 					if (this.percent < 100) {
-						log.debug(this.percent
+						log(this.percent
 								+ "%"
 								+ (this.optStatus != null ? " ["
 										+ this.optStatus + "]" : "") + "\t");
 					} else {
-						log.debug(this.percent
+						log(this.percent
 								+ "%"
 								+ (this.optStatus != null ? " ["
 										+ this.optStatus + "]" : ""));
@@ -361,5 +361,9 @@ public final class ProgressPrinter implements ChangeListener {
 
 			this.fireChangeListener();
 		}
+	}
+
+	protected void log(final String message) {
+		log.debug(message);
 	}
 }

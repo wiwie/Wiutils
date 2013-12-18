@@ -17,29 +17,36 @@ public class TextFileValueUniqueListParser extends TextFileParser {
 
 	/**
 	 * Instantiates a new text file value unique list parser.
-	 *
-	 * @param absFilePath the abs file path
-	 * @param keyColumnIds the key column ids
-	 * @param valueColumnIds the value column ids
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param keyColumnIds
+	 *            the key column ids
+	 * @param valueColumnIds
+	 *            the value column ids
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public TextFileValueUniqueListParser(final String absFilePath,
 			final int[] keyColumnIds, final int[] valueColumnIds)
 			throws IOException {
-		super(absFilePath, keyColumnIds, valueColumnIds, false, null, null);
+		super(absFilePath, keyColumnIds, valueColumnIds, false, null, null,
+				null);
 		this.values = new ArrayList<String>();
 	}
 
 	/**
 	 * Gets the list.
-	 *
+	 * 
 	 * @return the list
 	 */
 	public List<String> getList() {
 		return this.values;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see utils.parse.TextFileParser#process()
 	 */
 	@Override
@@ -48,8 +55,11 @@ public class TextFileValueUniqueListParser extends TextFileParser {
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see utils.parse.TextFileParser#processLine(java.lang.String[], java.lang.String[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see utils.parse.TextFileParser#processLine(java.lang.String[],
+	 * java.lang.String[])
 	 */
 	@Override
 	protected void processLine(final String[] key, final String[] value) {

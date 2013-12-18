@@ -8,8 +8,12 @@
 	</target>
 
 	<target name="deploy.local" depends="makejar" description="Copy to projects">
-		<echo>Copying to project ClusEvalFramework...</echo>
+		<echo>Copying to project clusteval...</echo>
 		<copy todir="${deploy.dir.local.clusEval}">
+			<fileset file="Wiutils.jar" />
+		</copy>
+		<echo>Copying to project clusteval2...</echo>
+		<copy todir="${deploy.dir.local.clusEval2}">
 			<fileset file="Wiutils.jar" />
 		</copy>
 		<echo>Copying to project ClusEvalFramework_Client...</echo>
