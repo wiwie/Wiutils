@@ -32,6 +32,20 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns an array with the absolute values of the input array.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @return The array with absolute values.
+	 */
+	public static double[][] abs(double[][] template) {
+		double[][] result = new double[template.length][];
+		for (int i = 0; i < template.length; i++)
+			result[i] = abs(template[i]);
+		return result;
+	}
+
+	/**
 	 * Adds a double value to every element of the array, such that
 	 * result[i]=template[i]+add.
 	 * 
@@ -81,7 +95,7 @@ public class ArraysExt {
 	public static double[][] add(double[][] template, double add) {
 		double[][] result = new double[template.length][];
 		for (int i = 0; i < result.length; i++)
-			result[i] = ArraysExt.add(result[i], add);
+			result[i] = ArraysExt.add(template[i], add);
 		return result;
 	}
 
@@ -1162,7 +1176,23 @@ public class ArraysExt {
 	 * @return The result array.
 	 */
 	public static double[] scaleBy(double[] array, double factor) {
-		return ArraysExt.scaleBy(array, factor, true);
+		return ArraysExt.scaleBy(array, factor, true, false);
+	}
+
+	/**
+	 * Returns a scaled version of the input array. All entries of the input
+	 * array are divided by the given factor.
+	 * 
+	 * @param array
+	 *            The input array.
+	 * @param factor
+	 *            The scaling factor.
+	 * @param insitu
+	 *            Whether to write the subtracted values into the input array.
+	 * @return The result array.
+	 */
+	public static double[] scaleBy(double[] array, double factor, boolean insitu) {
+		return ArraysExt.scaleBy(array, factor, true, insitu);
 	}
 
 	/**
@@ -1176,10 +1206,17 @@ public class ArraysExt {
 	 * @param down
 	 *            If true, the entries of the array are divided by the factor,
 	 *            otherwise it is multiplied.
+	 * @param insitu
+	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array.
 	 */
-	public static double[] scaleBy(double[] array, double factor, boolean down) {
-		double[] result = new double[array.length];
+	public static double[] scaleBy(double[] array, double factor, boolean down,
+			boolean insitu) {
+		double[] result;
+		if (insitu)
+			result = array;
+		else
+			result = new double[array.length];
 		for (int i = 0; i < array.length; i++)
 			if (down)
 				result[i] = array[i] / factor;
@@ -1196,13 +1233,20 @@ public class ArraysExt {
 	 *            The input array.
 	 * @param factor
 	 *            The scaling factor.
+	 * @param insitu
+	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array.
 	 */
-	public static double[][] scaleBy(double[][] array, double factor) {
-		double[][] result = new double[array.length][];
+	public static double[][] scaleBy(double[][] array, double factor,
+			boolean insitu) {
+		double[][] result;
+		if (insitu)
+			result = array;
+		else
+			result = new double[array.length][];
 
 		for (int i = 0; i < array.length; i++) {
-			result[i] = ArraysExt.scaleBy(array[i], factor);
+			result[i] = ArraysExt.scaleBy(array[i], factor, true, insitu);
 		}
 
 		return result;
@@ -1236,7 +1280,8 @@ public class ArraysExt {
 	 * @return The result array.
 	 */
 	public static double[] scaleBy(int[] array, double factor, boolean down) {
-		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor, down);
+		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor, down,
+				false);
 	}
 
 	/**
@@ -1286,9 +1331,32 @@ public class ArraysExt {
 	 * @return The result array
 	 */
 	public static double[][] subtract(double subtract, double[][] template) {
-		double[][] result = new double[template.length][];
+		return subtract(subtract, template, false);
+	}
+
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i][j]=template[i][j]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @param insitu
+	 *            Whether to write the subtracted values into the input array.
+	 * @return The result array
+	 */
+	public static double[][] subtract(double subtract, double[][] template,
+			boolean insitu) {
+		double[][] result;
+		if (insitu)
+			result = template;
+		else
+			result = new double[template.length][];
 		for (int i = 0; i < template.length; i++) {
-			result[i] = new double[template[i].length];
+			if (!insitu)
+				result[i] = new double[template[i].length];
 			for (int j = 0; j < template[i].length; j++)
 				result[i][j] = subtract - template[i][j];
 		}
@@ -1365,8 +1433,31 @@ public class ArraysExt {
 	 * @return The result array
 	 */
 	public static double[][] subtract(double[][] template, double subtract) {
-		double[][] result = new double[template.length][];
+		return subtract(template, subtract, false);
+	}
+
+	/**
+	 * Subtracts a double value from every element of the array, such that
+	 * result[i][j]=template[i][j]-subtract.
+	 * 
+	 * @param template
+	 *            The input array
+	 * @param subtract
+	 *            The double value to subtract from the elements of the input
+	 *            array
+	 * @param insitu
+	 *            Whether to write the subtracted values into the input array.
+	 * @return The result array
+	 */
+	public static double[][] subtract(double[][] template, double subtract,
+			boolean insitu) {
+		double[][] result;
+		if (insitu)
+			result = template;
+		else
+			result = new double[template.length][];
 		for (int i = 0; i < result.length; i++)
+			// TODO: make this one insitu as well
 			result[i] = ArraysExt.subtract(template[i], subtract);
 		return result;
 	}

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @param <T>
  * @param <U>
  */
-public final class Pair<T, U> implements Serializable {
+public class Pair<T, U> implements Serializable {
 
 	/**
 	 * 

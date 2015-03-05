@@ -3,33 +3,12 @@ package utils.parse;
 import java.io.IOException;
 
 import utils.SimilarityMatrix;
+import utils.SimilarityMatrix.NUMBER_PRECISION;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimFile2DArrayParser.
  */
 public class SimFileMatrixParser extends SimFileParser {
-
-	/**
-	 * The main method.
-	 * 
-	 * @param args
-	 *            the arguments
-	 */
-	public static void main(final String[] args) {
-		try {
-			final SimFileMatrixParser p = new SimFileMatrixParser(
-					"/home/wiwie/Dropbox/workspace/ClusEvalFramework/example/data/datasets/DS1/Zachary_karate_club_similarities.txt",
-					SIM_FILE_FORMAT.ID_ID_SIM,
-					null,
-					null,
-					"/home/wiwie/Dropbox/workspace/ClusEvalFramework/example/data/datasets/DS1/Zachary_karate_club_similarities_matrix3.txt",
-					OUTPUT_MODE.BURST, SIM_FILE_FORMAT.MATRIX_HEADER);
-			p.process();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/** The similarities. */
 	// protected double[][] similarities;
@@ -107,7 +86,7 @@ public class SimFileMatrixParser extends SimFileParser {
 			final OUTPUT_MODE outputMode, final SIM_FILE_FORMAT outputFormat)
 			throws IOException {
 		this(absFilePath, simFileFormat, absIdFilePath, idFileFormat,
-				outputFile, outputMode, outputFormat, null);
+				outputFile, outputMode, outputFormat, (SimilarityMatrix) null);
 	}
 
 	/**
@@ -144,6 +123,33 @@ public class SimFileMatrixParser extends SimFileParser {
 	 *            the abs file path
 	 * @param simFileFormat
 	 *            the sim file format
+	 * @param outputFile
+	 *            the output file
+	 * @param outputMode
+	 *            the output mode
+	 * @param outputFormat
+	 *            the output format
+	 * @param precision
+	 *            The numeric precision in which to store the similarities
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public SimFileMatrixParser(final String absFilePath,
+			final SIM_FILE_FORMAT simFileFormat, final String outputFile,
+			final OUTPUT_MODE outputMode, final SIM_FILE_FORMAT outputFormat,
+			final NUMBER_PRECISION precision) throws IOException {
+		super(absFilePath, simFileFormat, null, null, outputFile, outputMode,
+				outputFormat);
+		this.initSimilarities(precision);
+	}
+
+	/**
+	 * Instantiates a new sim file2 d array parser.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param simFileFormat
+	 *            the sim file format
 	 * @param absIdFilePath
 	 *            the abs id file path
 	 * @param idFileFormat
@@ -167,6 +173,38 @@ public class SimFileMatrixParser extends SimFileParser {
 		super(absFilePath, simFileFormat, absIdFilePath, idFileFormat,
 				outputFile, outputMode, outputFormat);
 		this.initSimilarities(initSimilarities);
+	}
+
+	/**
+	 * Instantiates a new sim file2 d array parser.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param simFileFormat
+	 *            the sim file format
+	 * @param absIdFilePath
+	 *            the abs id file path
+	 * @param idFileFormat
+	 *            the id file format
+	 * @param outputFile
+	 *            the output file
+	 * @param outputMode
+	 *            the output mode
+	 * @param outputFormat
+	 *            the output format
+	 * @param precision
+	 *            The numeric precision in which to store the similarities
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public SimFileMatrixParser(final String absFilePath,
+			final SIM_FILE_FORMAT simFileFormat, final String absIdFilePath,
+			final ID_FILE_FORMAT idFileFormat, final String outputFile,
+			final OUTPUT_MODE outputMode, final SIM_FILE_FORMAT outputFormat,
+			final NUMBER_PRECISION precision) throws IOException {
+		super(absFilePath, simFileFormat, absIdFilePath, idFileFormat,
+				outputFile, outputMode, outputFormat);
+		this.initSimilarities(precision);
 	}
 
 	/**
@@ -202,9 +240,6 @@ public class SimFileMatrixParser extends SimFileParser {
 	 * 
 	 * @return the similarities
 	 */
-	// public double[][] getSimilarities() {
-	// return this.similarities;
-	// }
 	public SimilarityMatrix getSimilarities() {
 		return this.similarities;
 	}
@@ -223,47 +258,43 @@ public class SimFileMatrixParser extends SimFileParser {
 			else
 				this.similarities = new SimilarityMatrix(this.sequenceCount,
 						this.sequenceCount);
-
-			// for (int i = 0; i < this.similarities.getRows(); i++) {
-			// for (int j = 0; j < this.similarities.getColumns(); j++)
-			// this.similarities.setSimilarity(i, j, -Double.MAX_VALUE);
-			// }
 		} else {
 			this.similarities = initSims;
 		}
 	}
 
+	/**
+	 * Inits the similarities.
+	 * 
+	 * @param precision
+	 *            The numeric precision in which to store the similarities
+	 */
+	public void initSimilarities(final NUMBER_PRECISION precision) {
+		if (this.outputMode != null
+				&& this.outputMode.equals(OUTPUT_MODE.STREAM))
+			this.similarities = new SimilarityMatrix(1, this.sequenceCount,
+					precision);
+		else
+			this.similarities = new SimilarityMatrix(this.sequenceCount,
+					this.sequenceCount, precision);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see utils.parse.TextFileParser#finishProcess()
+	 * @see utils.parse.TextFileParser#checkLine(java.lang.String)
 	 */
 	@Override
-	public void finishProcess() {
-		super.finishProcess();
-		String[] ids = new String[this.keyToId.size()];
-		for (String id : this.keyToId.keySet())
-			ids[this.keyToId.get(id)] = id;
-		this.similarities.setIds(ids);
-
-		if (this.outputMode != null
-				&& this.outputMode.equals(OUTPUT_MODE.BURST)) {
-			double maxValue = this.similarities.getMaxValue();
-			double minValue = this.similarities.getMinValue();
-
-			// for (int x = 0; x < ids.length; x++) {
-			// for (int y = 0; y < ids.length; y++) {
-			// if (this.similarities.isSparse(x, y)) {
-			// if (x == y) {
-			// this.similarities.setSimilarity(x, y, maxValue);
-			// } else {
-			// this.similarities.setSimilarity(x, y, minValue);
-			// }
-			// }
-			// }
-			// }
+	protected boolean checkLine(String line) {
+		if (parsingComments) {
+			boolean isComment = attributeLinePrefixPattern.matcher(line)
+					.matches();
+			if (isComment)
+				this.currentLine = -1;
+			parsingComments = parsingComments && isComment;
+			return !isComment;
 		}
-
+		return true;
 	}
 
 	/*
@@ -303,9 +334,17 @@ public class SimFileMatrixParser extends SimFileParser {
 			return;
 		} else if (this.simFileFormat.equals(SIM_FILE_FORMAT.MATRIX_HEADER)) {
 			i = (int) (this.currentLine);
-			// skip first row, header row
-			if (i == 0)
+			// parse ids from first row
+			if (i == 0) {
+				String[] ids = value;
+				for (int x = 0; x < ids.length; x++) {
+					this.keyToId.put(ids[x], x);
+					this.idToKey.put(x, ids[x]);
+				}
+				this.similarities.setIds(ids);
+
 				return;
+			}
 			for (j = 0; j < sequenceCount; j++) {
 				if (value[j].equals("NA"))
 					continue;
@@ -321,13 +360,39 @@ public class SimFileMatrixParser extends SimFileParser {
 			return;
 		}
 		// TODO ?
-		if (this.outputMode == null
-				|| this.outputMode.equals(OUTPUT_MODE.BURST))
-			this.similarities.setSimilarity(i, j,
-					Double.valueOf(this.combineColumns(value)));
-		else
-			this.similarities.setSimilarity(0, j,
-					Double.valueOf(this.combineColumns(value)));
+		try {
+			if (this.outputMode == null
+					|| this.outputMode.equals(OUTPUT_MODE.BURST))
+				this.similarities.setSimilarity(i, j,
+						Double.valueOf(this.combineColumns(value)));
+			else
+				this.similarities.setSimilarity(0, j,
+						Double.valueOf(this.combineColumns(value)));
+		} catch (NumberFormatException e) {
+			this.log.warn(String.format(
+					"Skipping invalid similarity value '%s' between %s and %s",
+					this.combineColumns(value), this.getKeyForId(i),
+					this.getKeyForId(j)));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see utils.parse.TextFileParser#finishProcess()
+	 */
+	@Override
+	public void finishProcess() {
+		super.finishProcess();
+		if (this.simFileFormat.equals(SIM_FILE_FORMAT.ID_ID_SIM)) {
+			String[] ids = new String[this.idToKey.size()];
+			for (int i = 0; i < this.idToKey.size(); i++) {
+				ids[i] = this.idToKey.get(i);
+			}
+			this.similarities.setIds(ids);
+
+			return;
+		}
 	}
 
 	/*

@@ -30,8 +30,28 @@ public class TextFileValueUniqueListParser extends TextFileParser {
 	public TextFileValueUniqueListParser(final String absFilePath,
 			final int[] keyColumnIds, final int[] valueColumnIds)
 			throws IOException {
-		super(absFilePath, keyColumnIds, valueColumnIds, false, null, null,
-				null);
+		super(absFilePath, keyColumnIds, valueColumnIds, true, null, null, null);
+		this.values = new ArrayList<String>();
+	}
+
+	/**
+	 * Instantiates a new text file value unique list parser.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param keyColumnIds
+	 *            the key column ids
+	 * @param valueColumnIds
+	 *            the value column ids
+	 * @param splitLines
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	public TextFileValueUniqueListParser(final String absFilePath,
+			final int[] keyColumnIds, final int[] valueColumnIds,
+			final boolean splitLines) throws IOException {
+		super(absFilePath, keyColumnIds, valueColumnIds, splitLines, null,
+				null, null);
 		this.values = new ArrayList<String>();
 	}
 

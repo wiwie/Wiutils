@@ -141,16 +141,6 @@ public class ProgressPrinter implements ChangeListener {
 	}
 
 	/**
-	 * <<<<<<< HEAD
-	 * 
-	 * @param upperLimit
-	 *            A number corresponding to 100% progress.
-	 * @param printOnNewPercent
-	 *            A boolean indicating, whether to print information on the
-	 *            screen if a new percentage is reached.
-	 * @param linePrefix
-	 *            The prefix that should be put in front of every posted line.
-	 *            ======= Create a new progress printer.
 	 * 
 	 * @param upperLimit
 	 *            The number of total steps of this progress.
@@ -158,8 +148,7 @@ public class ProgressPrinter implements ChangeListener {
 	 *            Whether to log a status information when a new percentage is
 	 *            reached (see {@link #printOnNewPercent}).
 	 * @param linePrefix
-	 *            The prefix of logged lines (see {@link #linePrefix} ). >>>>>>>
-	 *            5fc1ac34de0ff7a0a3766efd02e02affc0da3432
+	 *            The prefix of logged lines (see {@link #linePrefix} ).
 	 */
 	public ProgressPrinter(final long upperLimit,
 			final boolean printOnNewPercent, final String linePrefix) {

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +82,19 @@ public abstract class TextFileParser {
 
 	/** The log. */
 	protected Logger log;
+
+	protected boolean parsingComments;
+
+	/**
+	 * Is used to determine whether a line is a comment
+	 */
+	protected String attributeLinePrefix = "//";
+
+	/**
+	 * The pattern build from the attributeLinePrefix
+	 */
+	protected Pattern attributeLinePrefixPattern = Pattern.compile("\\s*"
+			+ attributeLinePrefix + ".*");
 
 	/**
 	 * Instantiates a new text file parser.
@@ -200,7 +214,14 @@ public abstract class TextFileParser {
 			final OUTPUT_MODE outputMode) throws IOException {
 		super();
 		this.log = LoggerFactory.getLogger(this.getClass());
+		this.splitLines = splitLines;
 		this.setFile(absFilePath);
+		if (this.splitLines) {
+			if (splitChar != null)
+				this.inSplit = splitChar;
+			else
+				this.tryFindSplit();
+		}
 		if (outputFile != null) {
 			this.outputFile = outputFile;
 			this.outputMode = outputMode;
@@ -220,13 +241,6 @@ public abstract class TextFileParser {
 			this.valueColumns = new int[]{0};
 		} else {
 			this.valueColumns = valueColumnIds;
-		}
-		this.splitLines = splitLines;
-		if (this.splitLines) {
-			if (splitChar != null)
-				this.inSplit = splitChar;
-			else
-				this.tryFindSplit();
 		}
 		// this.totalLineCount = this.getTotalLineCount();
 		this.progress = new ProgressPrinter(this.totalLineCount, true, "");
@@ -357,7 +371,9 @@ public abstract class TextFileParser {
 		log.trace("Counting columns in input file...");
 		int count = 0;
 		try {
-			String line = this.fileReader.readLine();
+			String line = this.readLine();
+			while (line.isEmpty() && this.skipEmptyLines || !checkLine(line))
+				line = this.readLine();
 			int pos = 0;
 			while ((pos = line.indexOf(this.inSplit, pos)) > -1) {
 				count++;
@@ -558,6 +574,7 @@ public abstract class TextFileParser {
 			this.resetReader();
 			String line = null;
 			long lineNumber = 0;
+			this.parsingComments = true;
 			while ((line = this.readLine()) != null && !this.terminated) {
 				try {
 					this.currentLine++;
@@ -568,8 +585,11 @@ public abstract class TextFileParser {
 					}
 					String[] lineSplit = null;
 					try {
-						lineSplit = (this.splitLines ? StringExt.split(line,
-								this.inSplit) : new String[]{line});
+						// lineSplit = (this.splitLines ? StringExt.split(line,
+						// this.inSplit) : new String[]{line});
+						lineSplit = (this.splitLines
+								? line.split(this.inSplit)
+								: new String[]{line});
 					} catch (NullPointerException e) {
 						System.out.println("test");
 					}
@@ -774,8 +794,13 @@ public abstract class TextFileParser {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public void tryFindSplit() throws IOException {
+		this.parsingComments = true;
 		this.outSplit = "\t";
-		final String line = this.readLine();
+		if (this.inSplit != null)
+			return;
+		String line = this.readLine();
+		while (line.isEmpty() && this.skipEmptyLines || !checkLine(line))
+			line = this.readLine();
 
 		if (StringExt.split(line, "\t").length > 1) {
 			this.inSplit = "\t";
@@ -785,5 +810,6 @@ public abstract class TextFileParser {
 			throw new IOException(
 					"Unknown split character. Please set it manually.");
 		}
+		this.parsingComments = true;
 	}
 }

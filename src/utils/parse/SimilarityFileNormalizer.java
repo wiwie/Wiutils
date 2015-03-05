@@ -12,17 +12,18 @@ public class SimilarityFileNormalizer extends SimFileParser {
 	 * The Enum PROCESSING_PHASE.
 	 */
 	enum PROCESSING_PHASE {
-		
+
 		/** The FIN d_ maximu m_ sim. */
-		FIND_MAXIMUM_SIM, 
- /** The NORMALIZ e_ si m_ file. */
- NORMALIZE_SIM_FILE
+		FIND_MAXIMUM_SIM,
+		/** The NORMALIZ e_ si m_ file. */
+		NORMALIZE_SIM_FILE
 	}
 
 	/**
 	 * The main method.
-	 *
-	 * @param args the arguments
+	 * 
+	 * @param args
+	 *            the arguments
 	 */
 	public static void main(final String[] args) {
 		try {
@@ -39,26 +40,30 @@ public class SimilarityFileNormalizer extends SimFileParser {
 
 	/** The processing phase. */
 	protected PROCESSING_PHASE processingPhase;
-	
+
 	/** The invert. */
 	protected boolean invert;
 
 	/** The min file similarity. */
 	protected double minFileSimilarity;
-	
+
 	/** The max file similarity. */
 	protected double maxFileSimilarity;
-	
+
 	/** The max target similarity. */
 	protected double maxTargetSimilarity;
 
 	/**
 	 * Instantiates a new similarity file normalizer.
-	 *
-	 * @param absFilePath the abs file path
-	 * @param simFileFormat the sim file format
-	 * @param absOutputFile the abs output file
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param simFileFormat
+	 *            the sim file format
+	 * @param absOutputFile
+	 *            the abs output file
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public SimilarityFileNormalizer(final String absFilePath,
 			SIM_FILE_FORMAT simFileFormat, final String absOutputFile)
@@ -69,12 +74,17 @@ public class SimilarityFileNormalizer extends SimFileParser {
 
 	/**
 	 * Instantiates a new similarity file normalizer.
-	 *
-	 * @param absFilePath the abs file path
-	 * @param simFileFormat the sim file format
-	 * @param absOutputFile the abs output file
-	 * @param maxTargetSimilarity the max target similarity
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param simFileFormat
+	 *            the sim file format
+	 * @param absOutputFile
+	 *            the abs output file
+	 * @param maxTargetSimilarity
+	 *            the max target similarity
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public SimilarityFileNormalizer(final String absFilePath,
 			SIM_FILE_FORMAT simFileFormat, final String absOutputFile,
@@ -85,14 +95,21 @@ public class SimilarityFileNormalizer extends SimFileParser {
 
 	/**
 	 * Instantiates a new similarity file normalizer.
-	 *
-	 * @param absFilePath the abs file path
-	 * @param simFileFormat the sim file format
-	 * @param absOutputFile the abs output file
-	 * @param minFileSimilarity the min file similarity
-	 * @param maxFileSimilarity the max file similarity
-	 * @param maxTargetSimilarity the max target similarity
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param absFilePath
+	 *            the abs file path
+	 * @param simFileFormat
+	 *            the sim file format
+	 * @param absOutputFile
+	 *            the abs output file
+	 * @param minFileSimilarity
+	 *            the min file similarity
+	 * @param maxFileSimilarity
+	 *            the max file similarity
+	 * @param maxTargetSimilarity
+	 *            the max target similarity
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public SimilarityFileNormalizer(final String absFilePath,
 			SIM_FILE_FORMAT simFileFormat, final String absOutputFile,
@@ -114,8 +131,9 @@ public class SimilarityFileNormalizer extends SimFileParser {
 
 	/**
 	 * Find min and max similarity.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public void findMinAndMaxSimilarity() throws IOException {
 		log.debug("Scanning for minimum/maximum similarity in file");
@@ -124,8 +142,11 @@ public class SimilarityFileNormalizer extends SimFileParser {
 		log.debug("Found maximal similarity to be " + this.maxFileSimilarity);
 	}
 
-	/* (non-Javadoc)
-	 * @see utils.parse.TextFileParser#getLineOutput(java.lang.String[], java.lang.String[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see utils.parse.TextFileParser#getLineOutput(java.lang.String[],
+	 * java.lang.String[])
 	 */
 	@Override
 	protected String getLineOutput(final String[] key, final String[] value) {
@@ -135,6 +156,11 @@ public class SimilarityFileNormalizer extends SimFileParser {
 				case NORMALIZE_SIM_FILE :
 					sb.append(this.combineColumns(key));
 					sb.append(this.outSplit);
+					if (value[0].equals("NA")) {
+						sb.append("NA");
+						sb.append(System.getProperty("line.separator"));
+						break;
+					}
 					final double sim = Double.valueOf(value[0]);
 					if (this.invert) {
 						sb.append(String
@@ -159,16 +185,20 @@ public class SimilarityFileNormalizer extends SimFileParser {
 						sb.append(this.combineColumns(value));
 					} else {
 						for (int pos = 0; pos < value.length; pos++) {
-							final double sim = Double.valueOf(value[pos]);
-							if (this.invert) {
-								sb.append(String
-										.valueOf(1 - (sim
-												/ this.maxFileSimilarity * this.maxTargetSimilarity)));
+							if (value[pos].equals("NA")) {
+								sb.append("NA");
 							} else {
-								sb.append(String
-										.valueOf((sim - this.minFileSimilarity)
-												/ (this.maxFileSimilarity - this.minFileSimilarity)
-												* this.maxTargetSimilarity));
+								final double sim = Double.valueOf(value[pos]);
+								if (this.invert) {
+									sb.append(String
+											.valueOf(1 - (sim
+													/ this.maxFileSimilarity * this.maxTargetSimilarity)));
+								} else {
+									sb.append(String
+											.valueOf((sim - this.minFileSimilarity)
+													/ (this.maxFileSimilarity - this.minFileSimilarity)
+													* this.maxTargetSimilarity));
+								}
 							}
 							sb.append(this.outSplit);
 						}
@@ -192,8 +222,11 @@ public class SimilarityFileNormalizer extends SimFileParser {
 		this.invert = true;
 	}
 
-	/* (non-Javadoc)
-	 * @see utils.parse.SimFileParser#processLine(java.lang.String[], java.lang.String[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see utils.parse.SimFileParser#processLine(java.lang.String[],
+	 * java.lang.String[])
 	 */
 	@Override
 	protected void processLine(final String[] key, final String[] value) {
@@ -202,6 +235,8 @@ public class SimilarityFileNormalizer extends SimFileParser {
 				case NORMALIZE_SIM_FILE :
 					break;
 				case FIND_MAXIMUM_SIM :
+					if (value[0].equals("NA"))
+						break;
 					final double val = Double.valueOf(value[0]);
 					if (val > this.maxFileSimilarity) {
 						this.maxFileSimilarity = val;
@@ -219,6 +254,8 @@ public class SimilarityFileNormalizer extends SimFileParser {
 					break;
 				case FIND_MAXIMUM_SIM :
 					for (int pos = 0; pos < value.length; pos++) {
+						if (value[pos].equals("NA"))
+							continue;
 						final double val = Double.valueOf(value[pos]);
 						if (val > this.maxFileSimilarity) {
 							this.maxFileSimilarity = val;

@@ -164,7 +164,9 @@ public class SimFileParser extends TextFileParser {
 		} else if (this.simFileFormat.equals(SIM_FILE_FORMAT.MATRIX_HEADER)) {
 			this.keyColumns = new int[]{0};
 			this.valueColumns = ArraysExt.range(1, this.getColumnsInFile());
-			this.sequenceCount = this.countKeysInColumns(this.keyColumns);
+			// TODO: verify, why was it like that before?
+			// this.sequenceCount = this.countKeysInColumns(this.keyColumns);
+			this.sequenceCount = this.getColumnsInFile() - 1;
 		}
 	}
 
@@ -183,8 +185,9 @@ public class SimFileParser extends TextFileParser {
 		int number = this.keyToId.keySet().size();
 		try {
 			String line = null;
+			this.parsingComments = true;
 			while ((line = this.readLine()) != null) {
-				if (line.isEmpty() && this.skipEmptyLines)
+				if ((line.isEmpty() && this.skipEmptyLines) || !checkLine(line))
 					continue;
 				lineCount++;
 				final String[] lineSplit = StringExt.split(line, this.inSplit);
@@ -270,7 +273,7 @@ public class SimFileParser extends TextFileParser {
 
 		if (this.idFileFormat.equals(ID_FILE_FORMAT.ID)) {
 			final TextFileValueUniqueListParser p = new TextFileValueUniqueListParser(
-					this.absIdFilePath, new int[]{}, new int[]{0});
+					this.absIdFilePath, new int[]{}, new int[]{0}, false);
 			p.process();
 			final List<String> values = p.getList();
 			for (final String value : values) {
