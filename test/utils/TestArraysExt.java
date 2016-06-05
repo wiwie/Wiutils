@@ -7,6 +7,9 @@ import junitx.framework.ArrayAssert;
 
 import org.junit.Test;
 
+import de.wiwie.wiutils.utils.ArraysExt;
+import de.wiwie.wiutils.utils.RangeCreationException;
+
 /**
  * @author Christian Wiwie
  * w

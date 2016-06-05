@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.wiwie.wiutils.utils.Formatter;
+
 
 /**
  * @author Christian Wiwie

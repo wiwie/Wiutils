@@ -3,8 +3,8 @@
 	<!-- Load properties -->
 	<property file="build.properties" />
 
-	<target name="makejar" description="Create a jar for the Wiutils project">
-		<jar jarfile="Wiutils.jar" includes="**/*.class" basedir="bin" />
+	<target name="makejar" depends="clean" description="Create a jar for the Wiutils project">
+		<jar jarfile="Wiutils.jar" includes="**/*.class" basedir="target/classes" />
 	</target>
 
 	<target name="deploy.local" depends="makejar" description="Copy to projects">
@@ -24,7 +24,6 @@
 		<copy todir="${deploy.dir.local.hiwiSVN}">
 			<fileset file="Wiutils.jar" />
 		</copy>
-		<antcall target="clean" />
 	</target>
 
 	<target name="clean" description="Clean up">

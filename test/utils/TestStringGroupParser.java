@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import utils.parse.StringGroupParser;
+import de.wiwie.wiutils.utils.parse.StringGroupParser;
 
 /**
  * @author Christian Wiwie
