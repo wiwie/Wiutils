@@ -17,8 +17,7 @@ public class ShortArray2D extends NumberArray2D {
 		this(rows, columns, false);
 	}
 
-	public ShortArray2D(final int rows, final int columns,
-			final boolean isSymmetric) {
+	public ShortArray2D(final int rows, final int columns, final boolean isSymmetric) {
 		super(isSymmetric);
 		if (isSymmetric) {
 			this.array = new short[rows][];
@@ -29,6 +28,23 @@ public class ShortArray2D extends NumberArray2D {
 			}
 		} else
 			this.array = new short[rows][columns];
+		for (int i = 0; i < this.array.length; i++) {
+			for (int j = 0; j < this.array[i].length; j++) {
+				this.array[i][j] = Short.MIN_VALUE;
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.wiwie.wiutils.utils.NumberArray2D#isSet(int, int)
+	 */
+	@Override
+	public boolean isSet(int x, int y) {
+		if (this.isSymmetric && x < y)
+			return this.array[y][x] != Short.MIN_VALUE;
+		return this.array[x][y] != Short.MIN_VALUE;
 	}
 
 	/*
@@ -91,7 +107,6 @@ public class ShortArray2D extends NumberArray2D {
 			return false;
 
 		ShortArray2D other = (ShortArray2D) o;
-		return this.isSymmetric == other.isSymmetric
-				&& Arrays.deepEquals(this.array, other.array);
+		return this.isSymmetric == other.isSymmetric && Arrays.deepEquals(this.array, other.array);
 	}
 }

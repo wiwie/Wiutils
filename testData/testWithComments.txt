@@ -1,0 +1,6 @@
+// asd
+// asdasd
+	id1	id2	id3
+id1	NA	1.0	0.0
+id2	NA	NA	3.0
+id3	NA	NA	NA

@@ -17,8 +17,7 @@ public class DoubleArray2D extends NumberArray2D {
 		this(rows, columns, false);
 	}
 
-	public DoubleArray2D(final int rows, final int columns,
-			final boolean isSymmetric) {
+	public DoubleArray2D(final int rows, final int columns, final boolean isSymmetric) {
 		super(isSymmetric);
 		if (isSymmetric) {
 			this.array = new double[rows][];
@@ -27,8 +26,26 @@ public class DoubleArray2D extends NumberArray2D {
 			for (int i = 0; i < rows; i++) {
 				this.array[i] = new double[i + 1];
 			}
-		} else
+		} else {
 			this.array = new double[rows][columns];
+		}
+		for (int i = 0; i < this.array.length; i++) {
+			for (int j = 0; j < this.array[i].length; j++) {
+				this.array[i][j] = Double.NaN;
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.wiwie.wiutils.utils.NumberArray2D#isSet(int, int)
+	 */
+	@Override
+	public boolean isSet(int x, int y) {
+		if (this.isSymmetric && x < y)
+			return !Double.isNaN(this.array[y][x]);
+		return !Double.isNaN(this.array[x][y]);
 	}
 
 	/*
@@ -91,7 +108,6 @@ public class DoubleArray2D extends NumberArray2D {
 			return false;
 
 		DoubleArray2D other = (DoubleArray2D) o;
-		return this.isSymmetric == other.isSymmetric
-				&& Arrays.deepEquals(this.array, other.array);
+		return this.isSymmetric == other.isSymmetric && Arrays.deepEquals(this.array, other.array);
 	}
 }

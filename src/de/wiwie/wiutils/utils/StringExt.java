@@ -3,6 +3,7 @@
  */
 package de.wiwie.wiutils.utils;
 
+import java.util.Collection;
 import java.util.StringTokenizer;
 
 /**
@@ -26,8 +27,33 @@ public class StringExt {
 			sb.append(delimiter);
 		}
 
-		int pos = sb.lastIndexOf(delimiter);
-		sb.delete(pos, pos + delimiter.length());
+		if (sb.length() > 0) {
+			int pos = sb.lastIndexOf(delimiter);
+			sb.delete(pos, pos + delimiter.length());
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * Merges the given objects into one string, using the delimiter.
+	 * 
+	 * @param delimiter
+	 * @param objects
+	 * @return
+	 */
+	public static String paste(final String delimiter, Collection<Object> objects) {
+		StringBuilder sb = new StringBuilder();
+
+		for (Object o : objects) {
+			sb.append(o);
+			sb.append(delimiter);
+		}
+
+		if (sb.length() > 0) {
+			int pos = sb.lastIndexOf(delimiter);
+			sb.delete(pos, pos + delimiter.length());
+		}
 
 		return sb.toString();
 	}

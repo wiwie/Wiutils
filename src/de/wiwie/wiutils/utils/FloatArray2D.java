@@ -29,6 +29,21 @@ public class FloatArray2D extends NumberArray2D {
 			}
 		} else
 			this.array = new float[rows][columns];
+		for (int i = 0; i < this.array.length; i++) { 
+			for (int j = 0; j < this.array[i].length; j++) {
+				this.array[i][j] = Float.NaN;
+			}
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.wiwie.wiutils.utils.NumberArray2D#isSet(int, int)
+	 */
+	@Override
+	public boolean isSet(int x, int y) {
+		if (this.isSymmetric && x < y)
+			return !Float.isNaN(this.array[y][x]);
+		return !Float.isNaN(this.array[x][y]);
 	}
 
 	/*

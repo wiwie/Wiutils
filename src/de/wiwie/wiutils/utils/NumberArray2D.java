@@ -23,6 +23,8 @@ public abstract class NumberArray2D {
 	public abstract double get(int x, int y);
 
 	public abstract void set(int x, int y, double val);
+	
+	public abstract boolean isSet(int x, int y);
 
 	@Override
 	public abstract boolean equals(Object o);

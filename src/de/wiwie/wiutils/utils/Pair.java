@@ -31,7 +31,8 @@ public class Pair<T, U> implements Serializable {
 	public boolean equals(final Object p) {
 		if (p instanceof Pair) {
 			final Pair<T, U> other = (Pair<T, U>) p;
-			return other.e1.equals(this.e1) && other.e2.equals(this.e2);
+			return ((this.e1 == null && other.e1 == null) || (other.e1.equals(this.e1)))
+					&& ((this.e2 == null && other.e2 == null) || (other.e2.equals(this.e2)));
 		}
 		return false;
 	}
@@ -54,12 +55,12 @@ public class Pair<T, U> implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return this.e1.hashCode() + this.e2.hashCode();
+		return (this.e1 != null ? this.e1.hashCode() : 0) + (this.e2 != null ? this.e2.hashCode() : 0);
 	}
 
 	@Override
 	public String toString() {
-		return "(" + this.e1.toString() + "\t" + this.e2.toString() + ")";
+		return "(" + (this.e1 != null ? this.e1.toString() : "null") + "\t" + (this.e2 != null ? this.e2.toString() : "null") + ")";
 	}
 
 	/**

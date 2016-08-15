@@ -44,18 +44,16 @@ public class SimilarityMatrix {
 		this(null, rows, columns, NUMBER_PRECISION.DOUBLE);
 	}
 
-	public SimilarityMatrix(final int rows, final int columns,
-			final NUMBER_PRECISION precision) {
+	public SimilarityMatrix(final int rows, final int columns, final NUMBER_PRECISION precision) {
 		this(null, rows, columns, precision);
 	}
 
-	public SimilarityMatrix(final int rows, final int columns,
-			final NUMBER_PRECISION precision, final boolean isSymmetric) {
+	public SimilarityMatrix(final int rows, final int columns, final NUMBER_PRECISION precision,
+			final boolean isSymmetric) {
 		this(null, rows, columns, precision, isSymmetric);
 	}
 
-	public SimilarityMatrix(final String[] ids, final int rows,
-			final int columns, final NUMBER_PRECISION precision) {
+	public SimilarityMatrix(final String[] ids, final int rows, final int columns, final NUMBER_PRECISION precision) {
 		this(ids, rows, columns, precision, false);
 	}
 
@@ -64,8 +62,7 @@ public class SimilarityMatrix {
 	 * @param rows
 	 * @param columns
 	 */
-	public SimilarityMatrix(final String[] ids, final int rows,
-			final int columns, final NUMBER_PRECISION precision,
+	public SimilarityMatrix(final String[] ids, final int rows, final int columns, final NUMBER_PRECISION precision,
 			final boolean isSymmetric) {
 		super();
 
@@ -77,8 +74,7 @@ public class SimilarityMatrix {
 
 		try {
 			if (precision.equals(NUMBER_PRECISION.DOUBLE))
-				this.similarities = new DoubleArray2D(rows, columns,
-						isSymmetric);
+				this.similarities = new DoubleArray2D(rows, columns, isSymmetric);
 			else if (precision.equals(NUMBER_PRECISION.FLOAT))
 				this.similarities = new FloatArray2D(rows, columns, isSymmetric);
 			else if (precision.equals(NUMBER_PRECISION.SHORT))
@@ -97,8 +93,7 @@ public class SimilarityMatrix {
 		this(similarities, NUMBER_PRECISION.DOUBLE);
 	}
 
-	public SimilarityMatrix(final double[][] similarities,
-			final NUMBER_PRECISION precision) {
+	public SimilarityMatrix(final double[][] similarities, final NUMBER_PRECISION precision) {
 		this(null, similarities, precision);
 	}
 
@@ -110,8 +105,7 @@ public class SimilarityMatrix {
 	 * @param ids
 	 * @param similarities
 	 */
-	public SimilarityMatrix(final String[] ids, final double[][] similarities,
-			final NUMBER_PRECISION precision) {
+	public SimilarityMatrix(final String[] ids, final double[][] similarities, final NUMBER_PRECISION precision) {
 		super();
 
 		if (ids != null) {
@@ -122,20 +116,16 @@ public class SimilarityMatrix {
 		try {
 			// TODO
 			if (precision.equals(NUMBER_PRECISION.DOUBLE)) {
-				this.similarities = new DoubleArray2D(similarities.length,
-						similarities[0].length);
+				this.similarities = new DoubleArray2D(similarities.length, similarities[0].length);
 			} else if (precision.equals(NUMBER_PRECISION.FLOAT)) {
-				this.similarities = new FloatArray2D(similarities.length,
-						similarities[0].length);
+				this.similarities = new FloatArray2D(similarities.length, similarities[0].length);
 			} else if (precision.equals(NUMBER_PRECISION.SHORT)) {
-				this.similarities = new ShortArray2D(similarities.length,
-						similarities[0].length);
+				this.similarities = new ShortArray2D(similarities.length, similarities[0].length);
 			}
 		} catch (OutOfMemoryError e) {
 			// in this case we try to parse the file into a sparse matrix data
 			// structure
-			this.sparseSimilarities = new SparseDoubleMatrix2D(
-					similarities.length, similarities[0].length);
+			this.sparseSimilarities = new SparseDoubleMatrix2D(similarities.length, similarities[0].length);
 		}
 		for (int i = 0; i < similarities.length; i++) {
 			for (int j = 0; j < similarities[i].length; j++)
@@ -174,9 +164,7 @@ public class SimilarityMatrix {
 	 * @return
 	 */
 	public double getSimilarity(final int id1, final int id2) {
-		return this.similarities != null
-				? this.similarities.get(id1, id2)
-				: this.sparseSimilarities.get(id1, id2);
+		return this.similarities != null ? this.similarities.get(id1, id2) : this.sparseSimilarities.get(id1, id2);
 	}
 
 	/**
@@ -186,8 +174,7 @@ public class SimilarityMatrix {
 	 */
 	public double getSimilarity(final String id1, final String id2) {
 		if (this.ids == null)
-			throw new IllegalArgumentException(
-					"No ids were set for this matrix!");
+			throw new IllegalArgumentException("No ids were set for this matrix!");
 		return this.getSimilarity(this.ids.get(id1), this.ids.get(id2));
 	}
 
@@ -196,8 +183,7 @@ public class SimilarityMatrix {
 	 * @param id2
 	 * @param similarity
 	 */
-	public void setSimilarity(final int id1, final int id2,
-			final double similarity) {
+	public void setSimilarity(final int id1, final int id2, final double similarity) {
 		if (this.similarities != null)
 			this.similarities.set(id1, id2, similarity);
 		else
@@ -211,11 +197,9 @@ public class SimilarityMatrix {
 	 * @param id2
 	 * @param similarity
 	 */
-	public void setSimilarity(final String id1, final String id2,
-			final double similarity) {
+	public void setSimilarity(final String id1, final String id2, final double similarity) {
 		if (this.ids == null)
-			throw new IllegalArgumentException(
-					"No ids were set for this matrix!");
+			throw new IllegalArgumentException("No ids were set for this matrix!");
 		this.setSimilarity(this.ids.get(id1), this.ids.get(id2), similarity);
 	}
 
@@ -223,18 +207,14 @@ public class SimilarityMatrix {
 	 * @return
 	 */
 	public int getRows() {
-		return this.similarities != null
-				? this.similarities.getRows()
-				: this.sparseSimilarities.rows();
+		return this.similarities != null ? this.similarities.getRows() : this.sparseSimilarities.rows();
 	}
 
 	/**
 	 * @return
 	 */
 	public int getColumns() {
-		return this.similarities != null
-				? this.similarities.getRows()
-				: this.sparseSimilarities.rows();
+		return this.similarities != null ? this.similarities.getRows() : this.sparseSimilarities.rows();
 	}
 
 	/**
@@ -264,8 +244,9 @@ public class SimilarityMatrix {
 
 		double maxVal = this.getMaxValue();
 		for (int i = 0; i < getRows(); i++) {
-			for (int j = 0; j < (this.similarities != null
-					&& this.similarities.isSymmetric() ? i + 1 : getColumns()); j++) {
+			for (int j = 0; j < (this.similarities != null && this.similarities.isSymmetric()
+					? i + 1
+					: getColumns()); j++) {
 				double old = this.getSimilarity(i, j);
 				this.setSimilarity(i, j, maxVal - old);
 			}
@@ -336,7 +317,7 @@ public class SimilarityMatrix {
 	 * @return
 	 */
 	public boolean isSparse(int row, int column) {
-		return false;
+		return (this.similarities == null) ? false : !this.similarities.isSet(row, column);
 	}
 
 	/*
@@ -351,13 +332,11 @@ public class SimilarityMatrix {
 
 		SimilarityMatrix other = (SimilarityMatrix) obj;
 
-		return ((this.ids == null && other.ids == null) || this.ids
-				.equals(other.ids))
-				&& ((this.similarities == null && other.similarities == null || this.similarities
-						.equals(other.similarities)))
-				&& ((this.sparseSimilarities == null
-						&& other.sparseSimilarities == null || this.sparseSimilarities
-							.equals(other.sparseSimilarities)));
+		return ((this.ids == null && other.ids == null) || this.ids.equals(other.ids))
+				&& ((this.similarities == null && other.similarities == null
+						|| this.similarities.equals(other.similarities)))
+				&& ((this.sparseSimilarities == null && other.sparseSimilarities == null
+						|| this.sparseSimilarities.equals(other.sparseSimilarities)));
 	}
 
 	/*
@@ -367,9 +346,7 @@ public class SimilarityMatrix {
 	 */
 	@Override
 	public int hashCode() {
-		return (this.ids + "" + this.similarities != null
-				? this.similarities
-				: this.sparseSimilarities).hashCode();
+		return (this.ids + "" + this.similarities != null ? this.similarities : this.sparseSimilarities).hashCode();
 	}
 
 	/**
@@ -379,12 +356,14 @@ public class SimilarityMatrix {
 	 */
 	public Map<Double, Integer> toDistribution(int numberBuckets) {
 
-		DistributionBuilder builder = new DistributionBuilder(this,
-				numberBuckets);
+		DistributionBuilder builder = new DistributionBuilder(this, numberBuckets);
 
 		for (int i = 0; i < this.getRows(); i++)
 			for (int j = 0; j < this.getColumns(); j++)
-				builder.apply(this.getSimilarity(i, j));
+				if (!this.isSparse(i, j)) {
+					if (!this.isSparse(i, j))
+						builder.apply(this.getSimilarity(i, j));
+				}
 
 		return builder.getResult();
 	}
@@ -397,7 +376,8 @@ public class SimilarityMatrix {
 
 		for (int i = 0; i < result.length; i++) {
 			for (int j = 0; j < result[i].length; j++) {
-				result[i][j] = this.getSimilarity(i, j);
+				if (!this.isSparse(i, j))
+					result[i][j] = this.getSimilarity(i, j);
 			}
 		}
 
@@ -411,7 +391,8 @@ public class SimilarityMatrix {
 		List<Double> distr = new ArrayList<Double>();
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getColumns(); j++) {
-				distr.add(this.getSimilarity(i, j));
+				if (!this.isSparse(i, j))
+					distr.add(this.getSimilarity(i, j));
 			}
 		}
 		Collections.sort(distr);
@@ -443,11 +424,9 @@ public class SimilarityMatrix {
 	 * @return
 	 * @throws RangeCreationException
 	 */
-	public double[] getQuantiles(final int numberOfQuantiles)
-			throws RangeCreationException {
+	public double[] getQuantiles(final int numberOfQuantiles) throws RangeCreationException {
 		List<Double> orderedList = toOrderedList();
-		int[] range = ArraysExt.range(0, orderedList.size() - 1,
-				numberOfQuantiles, true);
+		int[] range = ArraysExt.range(0, orderedList.size() - 1, numberOfQuantiles, true);
 		double[] result = new double[range.length];
 		for (int i = 0; i < range.length; i++)
 			result[i] = orderedList.get(range[i]);
@@ -460,12 +439,12 @@ public class SimilarityMatrix {
 	 */
 	public Pair<double[], int[]> toDistributionArray(int numberBuckets) {
 
-		DistributionBuilder builder = new DistributionBuilder(this,
-				numberBuckets);
+		DistributionBuilder builder = new DistributionBuilder(this, numberBuckets);
 
 		for (int i = 0; i < this.getRows(); i++)
 			for (int j = 0; j < this.getColumns(); j++)
-				builder.apply(this.getSimilarity(i, j));
+				if (!this.isSparse(i, j))
+					builder.apply(this.getSimilarity(i, j));
 
 		return builder.getResultAsArray();
 	}
@@ -476,11 +455,9 @@ public class SimilarityMatrix {
 	 * @return
 	 */
 	// TODO: added 25th 07 2012
-	public Pair<double[], int[][]> toClassDistributionArray(int numberBuckets,
-			String[][] classIds) {
+	public Pair<double[], int[][]> toClassDistributionArray(int numberBuckets, String[][] classIds) {
 
-		ClassDistributionBuilder builder = new ClassDistributionBuilder(this,
-				numberBuckets, classIds);
+		ClassDistributionBuilder builder = new ClassDistributionBuilder(this, numberBuckets, classIds);
 
 		builder.fillArray(this);
 
@@ -493,11 +470,9 @@ public class SimilarityMatrix {
 	 * @return
 	 */
 	// TODO: added 25th 07 2012
-	public Pair<double[], int[][]> toIntraInterDistributionArray(
-			int numberBuckets, Map<String, Integer> idToClass) {
+	public Pair<double[], int[][]> toIntraInterDistributionArray(int numberBuckets, Map<String, Integer> idToClass) {
 
-		IntraInterDistributionBuilder builder = new IntraInterDistributionBuilder(
-				this, numberBuckets, idToClass);
+		IntraInterDistributionBuilder builder = new IntraInterDistributionBuilder(this, numberBuckets, idToClass);
 
 		builder.fillArray(this);
 
@@ -556,8 +531,7 @@ class DistributionBuilder implements DoubleProcedure {
 			}
 		}
 
-		this.result.put(this.range[lower],
-				this.result.get(this.range[lower]) + 1);
+		this.result.put(this.range[lower], this.result.get(this.range[lower]) + 1);
 		this.resultArray[lower]++;
 		return true;
 	}
@@ -581,8 +555,7 @@ class ClassDistributionBuilder {
 	protected double[] range;
 	protected String[][] classIds;
 
-	public ClassDistributionBuilder(final SimilarityMatrix matrix,
-			int numberBuckets, String[][] classIds) {
+	public ClassDistributionBuilder(final SimilarityMatrix matrix, int numberBuckets, String[][] classIds) {
 		super();
 
 		this.classIds = classIds;
@@ -609,8 +582,7 @@ class ClassDistributionBuilder {
 		for (int c = 0; c < this.classIds.length; c++) {
 			for (int x = 0; x < this.classIds[c].length; x++) {
 				for (int y = 0; y < this.classIds[c].length; y++) {
-					double argument = matrix.getSimilarity(this.classIds[c][x],
-							this.classIds[c][y]);
+					double argument = matrix.getSimilarity(this.classIds[c][x], this.classIds[c][y]);
 
 					/*
 					 * Do binary search for bucket
@@ -619,8 +591,7 @@ class ClassDistributionBuilder {
 					int upper = this.range.length - 1;
 
 					while (lower < upper) {
-						int middle = lower
-								+ (int) Math.round((upper - lower) / 2.0);
+						int middle = lower + (int) Math.round((upper - lower) / 2.0);
 
 						if (lower == upper - 1) {
 							if (argument < this.range[upper]) {
@@ -663,8 +634,8 @@ class IntraInterDistributionBuilder {
 	protected double[] range;
 	protected Map<String, Integer> idToClass;
 
-	public IntraInterDistributionBuilder(final SimilarityMatrix matrix,
-			int numberBuckets, Map<String, Integer> idToClass) {
+	public IntraInterDistributionBuilder(final SimilarityMatrix matrix, int numberBuckets,
+			Map<String, Integer> idToClass) {
 		super();
 
 		this.idToClass = idToClass;
@@ -708,8 +679,7 @@ class IntraInterDistributionBuilder {
 				int upper = this.range.length - 1;
 
 				while (lower < upper) {
-					int middle = lower
-							+ (int) Math.round((upper - lower) / 2.0);
+					int middle = lower + (int) Math.round((upper - lower) / 2.0);
 
 					if (lower == upper - 1) {
 						if (argument < this.range[upper]) {
