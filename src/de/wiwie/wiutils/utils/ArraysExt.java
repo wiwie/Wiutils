@@ -158,8 +158,7 @@ public class ArraysExt {
 	 * @return The two dimensional double array with the values contained in the
 	 *         string.
 	 */
-	public static double[][] double2DFromSeparatedString(String text,
-			char separator) {
+	public static double[][] double2DFromSeparatedString(String text, char separator) {
 		return double2DFromSeparatedString(text, separator, '\n');
 	}
 
@@ -176,8 +175,7 @@ public class ArraysExt {
 	 * @return The two dimensional double array with the values contained in the
 	 *         string.
 	 */
-	public static double[][] double2DFromSeparatedString(String text,
-			char separator, char lineSeparator) {
+	public static double[][] double2DFromSeparatedString(String text, char separator, char lineSeparator) {
 		String[] split = text.split(lineSeparator + "");
 		double[][] result = new double[split.length][];
 		for (int i = 0; i < result.length; i++)
@@ -208,8 +206,7 @@ public class ArraysExt {
 	 *            The character that separates double values in the string.
 	 * @return The double array with the values contained in the string.
 	 */
-	public static double[] doublesFromSeparatedString(String text,
-			char separator) {
+	public static double[] doublesFromSeparatedString(String text, char separator) {
 		String[] split = text.split(separator + "");
 		double[] result = new double[split.length];
 		for (int i = 0; i < result.length; i++)
@@ -319,8 +316,7 @@ public class ArraysExt {
 	 * @return The two dimensional integer array with the values contained in
 	 *         the string.
 	 */
-	public static int[][] int2DFromSeparatedString(String text, char separator,
-			char lineSeparator) {
+	public static int[][] int2DFromSeparatedString(String text, char separator, char lineSeparator) {
 		String[] split = text.split(lineSeparator + "");
 		int[][] result = new int[split.length][];
 		for (int i = 0; i < result.length; i++)
@@ -382,8 +378,7 @@ public class ArraysExt {
 	 *            The value you want to replace infinity values with.
 	 * @return The result array
 	 */
-	public static double[] log(double[] array, boolean replaceInfty,
-			double replacement) {
+	public static double[] log(double[] array, boolean replaceInfty, double replacement) {
 		double[] result = new double[array.length];
 		for (int pos = 0; pos < array.length; pos++)
 			if (array[pos] <= 0 && replaceInfty)
@@ -417,8 +412,7 @@ public class ArraysExt {
 	 *            The value you want to replace infinity values with.
 	 * @return The result array
 	 */
-	public static double[][] log(double[][] array, boolean replaceInfty,
-			double replacement) {
+	public static double[][] log(double[][] array, boolean replaceInfty, double replacement) {
 		double[][] result = new double[array.length][];
 		for (int pos = 0; pos < array.length; pos++)
 			result[pos] = ArraysExt.log(array[pos], replaceInfty, replacement);
@@ -448,8 +442,7 @@ public class ArraysExt {
 	 *            The value you want to replace infinity values with.
 	 * @return The result array
 	 */
-	public static double[] log(int[] array, boolean replaceInfty,
-			double replacement) {
+	public static double[] log(int[] array, boolean replaceInfty, double replacement) {
 		double[] result = new double[array.length];
 		for (int pos = 0; pos < array.length; pos++) {
 			if (array[pos] <= 0 && replaceInfty)
@@ -501,8 +494,7 @@ public class ArraysExt {
 	 * @return The two dimensional integer array with the values contained in
 	 *         the string.
 	 */
-	public static long[][] long2DFromSeparatedString(String text,
-			char separator, char lineSeparator) {
+	public static long[][] long2DFromSeparatedString(String text, char separator, char lineSeparator) {
 		String[] split = text.split(lineSeparator + "");
 		long[][] result = new long[split.length][];
 		for (int i = 0; i < result.length; i++)
@@ -696,6 +688,20 @@ public class ArraysExt {
 		return ((double) sum(array)) / array.length;
 	}
 
+	public static double median(double... array) {
+		double[] sorted = Arrays.copyOf(array, array.length);
+		Arrays.sort(sorted);
+		return sorted.length % 2 == 1 ? sorted[sorted.length / 2]
+				: (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2.0;
+	}
+
+	public static double median(int... array) {
+		int[] sorted = Arrays.copyOf(array, array.length);
+		Arrays.sort(sorted);
+		return sorted.length % 2 == 1 ? sorted[sorted.length / 2]
+				: (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2.0;
+	}
+
 	/**
 	 * Returns the variance of the values in the given array.
 	 * 
@@ -724,6 +730,21 @@ public class ArraysExt {
 		for (double d : withoutNA)
 			result += Math.pow(d - mean, 2.0);
 		return result / withoutNA.length;
+	}
+
+	/**
+	 * Returns the variance of the values in the given array.
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The variance of the input array.
+	 */
+	public static double variance(int... array) {
+		double result = 0.0;
+		double mean = mean(array);
+		for (double d : array)
+			result += Math.pow(d - mean, 2.0);
+		return result / array.length;
 	}
 
 	/**
@@ -1002,8 +1023,7 @@ public class ArraysExt {
 	 * 
 	 */
 	public static double[] range(double start, double end, double stepsize) {
-		double[] result = new double[(int) (end / stepsize)
-				- (int) (start / stepsize)];
+		double[] result = new double[(int) (end / stepsize) - (int) (start / stepsize)];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = start + i * stepsize;
 		}
@@ -1025,16 +1045,12 @@ public class ArraysExt {
 	 * @return An array containing the double values.
 	 * 
 	 */
-	public static double[] range(double start, double end, int count,
-			boolean inclusiveEnd) {
+	public static double[] range(double start, double end, int count, boolean inclusiveEnd) {
 		double[] result = new double[count];
-		double constant = (inclusiveEnd
-				? start * Math.max(count - 1, 1)
-				: start * count);
+		double constant = (inclusiveEnd ? start * Math.max(count - 1, 1) : start * count);
 		double diff = end - start;
 		for (int i = 0; i < result.length; i++) {
-			result[i] = (constant + i * diff)
-					/ (inclusiveEnd ? Math.max(count - 1, 1) : count);
+			result[i] = (constant + i * diff) / (inclusiveEnd ? Math.max(count - 1, 1) : count);
 		}
 		return result;
 	}
@@ -1092,8 +1108,7 @@ public class ArraysExt {
 	 *             and end without duplicates.
 	 * 
 	 */
-	public static int[] range(int start, int end, int count,
-			boolean inclusiveEnd) throws RangeCreationException {
+	public static int[] range(int start, int end, int count, boolean inclusiveEnd) throws RangeCreationException {
 		return range(start, end, count, inclusiveEnd, true);
 	}
 
@@ -1118,12 +1133,10 @@ public class ArraysExt {
 	 *             and end.
 	 * 
 	 */
-	public static int[] range(int start, int end, int count,
-			boolean inclusiveEnd, boolean noDuplicates)
+	public static int[] range(int start, int end, int count, boolean inclusiveEnd, boolean noDuplicates)
 			throws RangeCreationException {
 		if (noDuplicates && end - start < (inclusiveEnd ? count - 1 : count))
-			throw new RangeCreationException(
-					"Range will contain duplicate values");
+			throw new RangeCreationException("Range will contain duplicate values");
 		double[] tmp = range((double) start, (double) end, count, inclusiveEnd);
 		int[] result = ArraysExt.toIntArray(tmp);
 		return result;
@@ -1236,8 +1249,7 @@ public class ArraysExt {
 	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array.
 	 */
-	public static double[] scaleBy(double[] array, double factor, boolean down,
-			boolean insitu) {
+	public static double[] scaleBy(double[] array, double factor, boolean down, boolean insitu) {
 		double[] result;
 		if (insitu)
 			result = array;
@@ -1263,8 +1275,7 @@ public class ArraysExt {
 	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array.
 	 */
-	public static double[][] scaleBy(double[][] array, double factor,
-			boolean insitu) {
+	public static double[][] scaleBy(double[][] array, double factor, boolean insitu) {
 		double[][] result;
 		if (insitu)
 			result = array;
@@ -1306,8 +1317,7 @@ public class ArraysExt {
 	 * @return The result array.
 	 */
 	public static double[] scaleBy(int[] array, double factor, boolean down) {
-		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor, down,
-				false);
+		return ArraysExt.scaleBy(ArraysExt.toDoubleArray(array), factor, down, false);
 	}
 
 	/**
@@ -1373,8 +1383,7 @@ public class ArraysExt {
 	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array
 	 */
-	public static double[][] subtract(double subtract, double[][] template,
-			boolean insitu) {
+	public static double[][] subtract(double subtract, double[][] template, boolean insitu) {
 		double[][] result;
 		if (insitu)
 			result = template;
@@ -1436,10 +1445,9 @@ public class ArraysExt {
 	 *            lengths of the two arrays.
 	 * @return The result array
 	 */
-	public static double[] subtract(double[] template, double[] subtract,
-			boolean common) {
-		double[] result = new double[common ? Math.min(template.length,
-				subtract.length) : Math.max(template.length, subtract.length)];
+	public static double[] subtract(double[] template, double[] subtract, boolean common) {
+		double[] result = new double[common ? Math.min(template.length, subtract.length)
+				: Math.max(template.length, subtract.length)];
 		for (int i = 0; i < result.length && i < template.length; i++)
 			result[i] = template[i];
 		for (int i = 0; i < result.length && i < subtract.length; i++)
@@ -1475,8 +1483,7 @@ public class ArraysExt {
 	 *            Whether to write the subtracted values into the input array.
 	 * @return The result array
 	 */
-	public static double[][] subtract(double[][] template, double subtract,
-			boolean insitu) {
+	public static double[][] subtract(double[][] template, double subtract, boolean insitu) {
 		double[][] result;
 		if (insitu)
 			result = template;
@@ -1758,8 +1765,7 @@ public class ArraysExt {
 	 *         the x-ticks of the histogram and the second element the number of
 	 *         occurrences of these x-ticks.
 	 */
-	public static Pair<double[], int[]> toHistogram(final double[] array,
-			final int buckets) {
+	public static Pair<double[], int[]> toHistogram(final double[] array, final int buckets) {
 		double min = ArraysExt.min(array);
 		double max = ArraysExt.max(array);
 		double[] minValues = ArraysExt.range(min, max, buckets, false);
@@ -1886,8 +1892,7 @@ public class ArraysExt {
 	 * @param lineSeparator
 	 * @return
 	 */
-	public static String toSeparatedString(double[][] result, char separator,
-			char lineSeparator) {
+	public static String toSeparatedString(double[][] result, char separator, char lineSeparator) {
 		StringBuilder sb = new StringBuilder();
 
 		for (double[] d : result) {
@@ -1926,8 +1931,7 @@ public class ArraysExt {
 		return toSeparatedString(result, '\t', '\n');
 	}
 
-	public static String toSeparatedString(int[][] result, char separator,
-			char lineSeparator) {
+	public static String toSeparatedString(int[][] result, char separator, char lineSeparator) {
 		StringBuilder sb = new StringBuilder();
 
 		for (int[] i : result) {
@@ -1966,8 +1970,7 @@ public class ArraysExt {
 		return toSeparatedString(result, '\t', '\n');
 	}
 
-	public static String toSeparatedString(long[][] result, char separator,
-			char lineSeparator) {
+	public static String toSeparatedString(long[][] result, char separator, char lineSeparator) {
 		StringBuilder sb = new StringBuilder();
 
 		for (long[] i : result) {
