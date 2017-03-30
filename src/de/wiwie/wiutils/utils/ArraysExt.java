@@ -748,6 +748,36 @@ public class ArraysExt {
 	}
 
 	/**
+	 * Returns the standard variance of the values in the given array.
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The standard variance of the input array.
+	 */
+	public static double stdvariance(int... array) {
+		double result = 0.0;
+		double mean = mean(array);
+		for (double d : array)
+			result += Math.pow(d - mean, 2.0);
+		return Math.sqrt(result / array.length);
+	}
+
+	/**
+	 * Returns the standard variance of the values in the given array.
+	 * 
+	 * @param array
+	 *            The input array
+	 * @return The standard variance of the input array.
+	 */
+	public static double stdvariance(double... array) {
+		double result = 0.0;
+		double mean = mean(array);
+		for (double d : array)
+			result += Math.pow(d - mean, 2.0);
+		return Math.sqrt(result / array.length);
+	}
+
+	/**
 	 * Append two arrays into one
 	 * 
 	 * @param array1
