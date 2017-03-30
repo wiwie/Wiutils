@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.wiwie</groupId>
   <artifactId>Wiutils</artifactId>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
 
   <dependencies>
   	<dependency>
@@ -93,6 +93,12 @@
                 </repository>
         </distributionManagement>
 
+ <scm>
+        <developerConnection>scm:git:https://github.com/wiwie/Wiutils</developerConnection>
+        <tag>master</tag>
+        <connection>scm:git:https://github.com/wiwie/Wiutils</connection>
+        <url>https://github.com/wiwie/Wiutils</url>
+ </scm>
 
 
 
