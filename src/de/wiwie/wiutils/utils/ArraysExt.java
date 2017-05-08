@@ -2089,4 +2089,22 @@ public class ArraysExt {
 		int[] result = ArraysExt.toPrimitive(list.toArray(new Integer[0]));
 		return result;
 	}
+	
+	public static List<Double> asList(final double[] array) {
+		List<Double> result = new ArrayList<>();
+		
+		for (double d: array)
+			result.add(d);
+		
+		return result;
+	}
+	
+	public static List<Integer> asList(final int[] array) {
+		List<Integer> result = new ArrayList<>();
+		
+		for (int d: array)
+			result.add(d);
+		
+		return result;
+	}
 }
