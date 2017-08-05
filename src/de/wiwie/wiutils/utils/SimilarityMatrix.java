@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cern.colt.function.tdouble.DoubleProcedure;
-import cern.colt.matrix.tdouble.impl.SparseDoubleMatrix2D;
+import org.la4j.matrix.functor.MatrixProcedure;
+import org.la4j.matrix.sparse.CRSMatrix;
 
 /**
  * @author Christian Wiwie
@@ -21,14 +21,41 @@ import cern.colt.matrix.tdouble.impl.SparseDoubleMatrix2D;
 public class SimilarityMatrix {
 
 	public enum NUMBER_PRECISION {
-		DOUBLE, FLOAT, SHORT
+		DOUBLE("double"), FLOAT("float"), SHORT("short");
+
+		private String text;
+
+		/**
+		 * 
+		 */
+		private NUMBER_PRECISION() {
+		}
+
+		/**
+		 * 
+		 */
+		private NUMBER_PRECISION(final String text) {
+			this.text = text;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			if (this.text != null)
+				return this.text;
+			return super.toString();
+		}
 	}
 
 	protected Map<String, Integer> ids;
 
 	protected NumberArray2D similarities;
 
-	protected SparseDoubleMatrix2D sparseSimilarities;
+	protected CRSMatrix sparseSimilarities;
 
 	protected double minSimilarity = Double.MAX_VALUE;
 
@@ -82,7 +109,7 @@ public class SimilarityMatrix {
 		} catch (OutOfMemoryError e) {
 			// in this case we try to parse the file into a sparse matrix data
 			// structure
-			this.sparseSimilarities = new SparseDoubleMatrix2D(rows, columns);
+			this.sparseSimilarities = new CRSMatrix(rows, columns);
 		}
 	}
 
@@ -125,7 +152,7 @@ public class SimilarityMatrix {
 		} catch (OutOfMemoryError e) {
 			// in this case we try to parse the file into a sparse matrix data
 			// structure
-			this.sparseSimilarities = new SparseDoubleMatrix2D(similarities.length, similarities[0].length);
+			this.sparseSimilarities = new CRSMatrix(similarities.length, similarities[0].length);
 		}
 		for (int i = 0; i < similarities.length; i++) {
 			for (int j = 0; j < similarities[i].length; j++)
@@ -362,7 +389,7 @@ public class SimilarityMatrix {
 			for (int j = 0; j < this.getColumns(); j++)
 				if (!this.isSparse(i, j)) {
 					if (!this.isSparse(i, j))
-						builder.apply(this.getSimilarity(i, j));
+						builder.apply(i, j, this.getSimilarity(i, j));
 				}
 
 		return builder.getResult();
@@ -444,7 +471,7 @@ public class SimilarityMatrix {
 		for (int i = 0; i < this.getRows(); i++)
 			for (int j = 0; j < this.getColumns(); j++)
 				if (!this.isSparse(i, j))
-					builder.apply(this.getSimilarity(i, j));
+					builder.apply(i, j, this.getSimilarity(i, j));
 
 		return builder.getResultAsArray();
 	}
@@ -480,7 +507,7 @@ public class SimilarityMatrix {
 	}
 }
 
-class DistributionBuilder implements DoubleProcedure {
+class DistributionBuilder implements MatrixProcedure {
 
 	protected HashMap<Double, Integer> result;
 	protected int[] resultArray;
@@ -503,13 +530,8 @@ class DistributionBuilder implements DoubleProcedure {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cern.colt.function.tdouble.DoubleFunction#apply(double)
-	 */
 	@Override
-	public boolean apply(double argument) {
+	public void apply(int i, int j, double argument) {
 		/*
 		 * Do binary search for bucket
 		 */
@@ -533,7 +555,6 @@ class DistributionBuilder implements DoubleProcedure {
 
 		this.result.put(this.range[lower], this.result.get(this.range[lower]) + 1);
 		this.resultArray[lower]++;
-		return true;
 	}
 
 	public HashMap<Double, Integer> getResult() {

@@ -42,7 +42,7 @@ public class StringExt {
 	 * @param objects
 	 * @return
 	 */
-	public static String paste(final String delimiter, Collection<Object> objects) {
+	public static String paste(final String delimiter, Collection<?> objects) {
 		StringBuilder sb = new StringBuilder();
 
 		for (Object o : objects) {

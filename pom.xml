@@ -4,44 +4,48 @@
   <artifactId>Wiutils</artifactId>
   <version>1.3</version>
 
-  <dependencies>
-  	<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.11</version>
+ <dependencies>
+	 	<dependency>
+	   <groupId>junit</groupId>
+	   <artifactId>junit</artifactId>
+	   <version>4.11</version>
 	<scope>test</scope>
-  </dependency>
+	 </dependency>
 
-                <dependency>
-                        <groupId>junit-addons</groupId>
-                        <artifactId>junit-addons</artifactId>
-                        <version>1.4</version>
-                        <scope>compile</scope>
-                </dependency>
+       <dependency>
+               <groupId>junit-addons</groupId>
+               <artifactId>junit-addons</artifactId>
+               <version>1.4</version>
+               <scope>compile</scope>
+       </dependency>
 
 
-                <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                        <version>1.0.9</version>
-                </dependency>
-                <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-core</artifactId>
-                        <version>1.0.9</version>
-                </dependency>
-                <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-access</artifactId>
-                        <version>1.0.9</version>
-                </dependency>
-
-                <dependency>
-                        <groupId>net.sourceforge.parallelcolt</groupId>
-                        <artifactId>parallelcolt</artifactId>
-                        <version>0.10.1</version>
-                </dependency>
-
+       <dependency>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+               <version>1.1.11</version>
+       </dependency>
+       <dependency>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-core</artifactId>
+               <version>1.1.11</version>
+       </dependency>
+       <dependency>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-access</artifactId>
+               <version>1.1.11</version>
+       </dependency>
+       <dependency>
+		  <groupId>org.la4j</groupId>
+		  <artifactId>la4j</artifactId>
+		  <version>0.6.0</version>
+		</dependency>
+<!-- 
+       <dependency>
+               <groupId>net.sourceforge.parallelcolt</groupId>
+               <artifactId>parallelcolt</artifactId>
+               <version>0.10.1</version>
+       </dependency> -->
 
   </dependencies>
 
@@ -60,6 +64,8 @@
     </plugins>
 
   </build>
+
+
         <repositories>
                 <repository>
                         <id>compbio_maven</id>
@@ -69,7 +75,7 @@
                         <releases>
                         </releases>
                         <name>CompBio Maven Repository</name>
-                        <url>http://maven.compbio.sdu.dk/repository/snapshots/</url>
+                        <url>http://maven.compbio.sdu.dk/</url>
                 </repository>
                 <repository>
                         <id>central_maven</id>
@@ -83,21 +89,20 @@
                 </repository>
         </repositories>
 
+
         <distributionManagement>
-                <repository>
+        <repository>
+              <id>compbio_maven</id>
+              <name>Internal Release Repository</name>
+              <url>http://maven.compbio.sdu.dk/repository/internal/</url>
+            </repository>
+                <snapshotRepository>
                   <uniqueVersion>true</uniqueVersion>
                   <id>archiva.snapshots</id>
                   <name>Snapshots</name>
                   <url>http://maven.compbio.sdu.dk/repository/snapshots/</url>
                   <layout>default</layout>
-                </repository>
+                </snapshotRepository>
         </distributionManagement>
-
- <scm>
-        <developerConnection>scm:git:https://github.com/wiwie/Wiutils</developerConnection>
-        <tag>master</tag>
-        <connection>scm:git:https://github.com/wiwie/Wiutils</connection>
-        <url>https://github.com/wiwie/Wiutils</url>
- </scm>
 
 </project>

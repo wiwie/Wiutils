@@ -1,5 +1,6 @@
 package de.wiwie.wiutils.utils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +18,12 @@ import org.slf4j.LoggerFactory;
  * @author Christian Wiwie
  * 
  */
-public class ProgressPrinter implements ChangeListener {
+public class ProgressPrinter implements ChangeListener, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3822057959480126049L;
 
 	/**
 	 * A factory method to initialize the attributes of the first progess
@@ -45,7 +51,7 @@ public class ProgressPrinter implements ChangeListener {
 	/**
 	 * The logger which is used to print status information.
 	 */
-	protected Logger log;
+	protected transient Logger log;
 
 	/**
 	 * The upper limit of the progress in terms of a number of steps to process.
@@ -96,7 +102,7 @@ public class ProgressPrinter implements ChangeListener {
 	 * Listeners of this progress printer are notified every time a new
 	 * percentage is reached.
 	 */
-	protected List<ChangeListener> listener;
+	protected transient List<ChangeListener> listener;
 
 	/**
 	 * A map holding all sub progress printers together with a number of steps
@@ -320,28 +326,29 @@ public class ProgressPrinter implements ChangeListener {
 
 		// status update
 		// TODO: temporarily removed this for debugging purposes
-		//if (this.upperLimit > 0 && newPercent > this.percent) {
-//			if (this.printOnNewPercent) {
-				// TODO: will not work anymore, since we changed the data type
-				// from int to float
-//				while (newPercent > this.percent) {
-//					this.percent++;
-//					if (this.percent < 100) {
-//						log(String.format("%.2f", this.percent) + "%"
-//								+ (this.optStatus != null ? " [" + this.optStatus + "]" : "") + "\t");
-//					} else {
-//						log(String.format("%.2f", this.percent) + "%"
-//								+ (this.optStatus != null ? " [" + this.optStatus + "]" : ""));
-//					}
-//				}
-				
-//			} else {
-			this.percent = newPercent;
-//			}
+		// if (this.upperLimit > 0 && newPercent > this.percent) {
+		// if (this.printOnNewPercent) {
+		// TODO: will not work anymore, since we changed the data type
+		// from int to float
+		// while (newPercent > this.percent) {
+		// this.percent++;
+		// if (this.percent < 100) {
+		// log(String.format("%.2f", this.percent) + "%"
+		// + (this.optStatus != null ? " [" + this.optStatus + "]" : "") +
+		// "\t");
+		// } else {
+		// log(String.format("%.2f", this.percent) + "%"
+		// + (this.optStatus != null ? " [" + this.optStatus + "]" : ""));
+		// }
+		// }
 
-			this.fireChangeListener();
-		}
-	//}
+		// } else {
+		this.percent = newPercent;
+		// }
+
+		this.fireChangeListener();
+	}
+	// }
 
 	protected void log(final String message) {
 		log.debug(message);
