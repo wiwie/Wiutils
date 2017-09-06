@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,8 @@ public abstract class TextFileParser {
 	/**
 	 * The pattern build from the attributeLinePrefix
 	 */
-	protected Pattern attributeLinePrefixPattern = Pattern.compile("\\s*" + attributeLinePrefix + ".*");
+	protected Pattern attributeLinePrefixPattern = Pattern
+			.compile("\\s*" + attributeLinePrefix + ".*");
 
 	/**
 	 * Instantiates a new text file parser.
@@ -118,8 +120,8 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds)
-			throws IOException {
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds) throws IOException {
 		this(absFilePath, keyColumnIds, valueColumnIds, null, null);
 	}
 
@@ -136,9 +138,11 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
-			final boolean splitLines) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null, null);
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds, final boolean splitLines)
+			throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null,
+				null);
 	}
 
 	/**
@@ -155,9 +159,11 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
-			final boolean splitLines, final String splitChar) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, splitChar, null, null);
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds, final boolean splitLines,
+			final String splitChar) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, splitChar,
+				null, null);
 	}
 
 	/**
@@ -176,9 +182,11 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
-			final String outputFile, final OUTPUT_MODE outputMode) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, true, null, outputFile, outputMode);
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds, final String outputFile,
+			final OUTPUT_MODE outputMode) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, true, null, outputFile,
+				outputMode);
 	}
 
 	/**
@@ -200,9 +208,10 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
-			final boolean splitLines, final String splitChar, final String outputFile, final OUTPUT_MODE outputMode)
-			throws IOException {
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
+			final int[] valueColumnIds, final boolean splitLines,
+			final String splitChar, final String outputFile,
+			final OUTPUT_MODE outputMode) throws IOException {
 		super();
 		this.log = LoggerFactory.getLogger(this.getClass());
 		this.splitLines = splitLines;
@@ -216,7 +225,8 @@ public abstract class TextFileParser {
 		if (outputFile != null) {
 			this.outputFile = outputFile;
 			this.outputMode = outputMode;
-			this.outputWriter = new BufferedWriter(new FileWriter(new File(this.outputFile)));
+			this.outputWriter = new BufferedWriter(
+					new FileWriter(new File(this.outputFile)));
 		}
 
 		// by default we assume the file has only one column, in which the value
@@ -246,7 +256,8 @@ public abstract class TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	private void checkForOutput(final String[] key, final String[] value) throws IOException {
+	private void checkForOutput(final String[] key, final String[] value)
+			throws IOException {
 		String output = null;
 		if ((output = this.getLineOutput(key, value)) != null) {
 			this.parsedLines++;
@@ -549,7 +560,8 @@ public abstract class TextFileParser {
 		// 04.10.2012: introduced new locking mechanism
 		File targetFile;
 		if (this.exclusiveLockOnTargetFile)
-			targetFile = FileUtils.getCommonFile(new File(this.absoluteFilePath));
+			targetFile = FileUtils
+					.getCommonFile(new File(this.absoluteFilePath));
 		else
 			targetFile = new File(this.absoluteFilePath);
 
@@ -567,7 +579,8 @@ public abstract class TextFileParser {
 				try {
 					this.currentLine++;
 					// skip empty lines
-					if (line.isEmpty() && this.skipEmptyLines || !checkLine(line)) {
+					if (line.isEmpty() && this.skipEmptyLines
+							|| !checkLine(line)) {
 						continue;
 					}
 					String[] lineSplit = null;
@@ -576,12 +589,15 @@ public abstract class TextFileParser {
 					} catch (NullPointerException e) {
 						System.out.println("test");
 					}
-					final String[] keyEntries = this.extractKeyEntries(lineSplit);
-					final String[] valueEntries = this.extractValueEntries(lineSplit);
+					final String[] keyEntries = this
+							.extractKeyEntries(lineSplit);
+					final String[] valueEntries = this
+							.extractValueEntries(lineSplit);
 					this.key = keyEntries;// this.combineColumns(keyEntries);
 					this.value = valueEntries;// this.combineColumns(valueEntries);
 					this.processLine(this.key, this.value);
-					if (this.outputFile != null && this.outputMode.equals(OUTPUT_MODE.STREAM)) {
+					if (this.outputFile != null
+							&& this.outputMode.equals(OUTPUT_MODE.STREAM)) {
 						this.checkForOutput(this.key, this.value);
 					}
 
@@ -589,12 +605,14 @@ public abstract class TextFileParser {
 						this.progress.update(lineNumber + 1);
 					lineNumber++;
 				} catch (IndexOutOfBoundsException e) {
-					log.error("Error while parsing line " + currentLine + " of file " + this.absoluteFilePath);
+					log.error("Error while parsing line " + currentLine
+							+ " of file " + this.absoluteFilePath);
 					e.printStackTrace();
 					throw e;
 				}
 			}
-			if (this.outputFile != null && this.outputMode.equals(OUTPUT_MODE.BURST)) {
+			if (this.outputFile != null
+					&& this.outputMode.equals(OUTPUT_MODE.BURST)) {
 				this.checkForBurstOutput();
 			}
 
@@ -614,7 +632,13 @@ public abstract class TextFileParser {
 		// slow.
 		// In such a case were speed is important, use StringExt.split()
 		// instead.
-		return this.splitLines ? line.split(this.inSplit, -1) : new String[]{line};
+
+		// return this.splitLines
+		// ? line.split(this.inSplit, -1)
+		// : new String[]{line};
+		return this.splitLines
+				? StringExt.split(line, this.inSplit)
+				: new String[]{line};
 	}
 
 	/**
@@ -666,12 +690,14 @@ public abstract class TextFileParser {
 		if (this.fileReader != null) {
 			this.fileReader.close();
 		}
-		this.fileReader = new BufferedReader(new FileReader(new File(this.absoluteFilePath)));
+		this.fileReader = new BufferedReader(
+				new FileReader(new File(this.absoluteFilePath)));
 		if (this.outputFile != null) {
 			if (this.outputWriter != null) {
 				this.outputWriter.close();
 			}
-			this.outputWriter = new BufferedWriter(new FileWriter(new File(this.outputFile)));
+			this.outputWriter = new BufferedWriter(
+					new FileWriter(new File(this.outputFile)));
 		}
 	}
 
@@ -793,7 +819,8 @@ public abstract class TextFileParser {
 		} else if (StringExt.split(line, " ").length > 1) {
 			this.inSplit = " ";
 		} else {
-			throw new IOException("Unknown split character. Please set it manually.");
+			throw new IOException(
+					"Unknown split character. Please set it manually.");
 		}
 		this.parsingComments = true;
 	}

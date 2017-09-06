@@ -9,9 +9,8 @@ import de.wiwie.wiutils.utils.ArraysExt;
 import de.wiwie.wiutils.utils.StringExt;
 import de.wiwie.wiutils.utils.text.TextFileValueUniqueListParser;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SimFileParser.
+ * 
  */
 public class SimFileParser extends TextFileParser {
 
@@ -179,7 +178,8 @@ public class SimFileParser extends TextFileParser {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	protected int countKeysInColumns(final int[] keyColumns) throws IOException {
+	protected int countKeysInColumns(final int[] keyColumns)
+			throws IOException {
 		this.resetReader();
 		long lineCount = 0;
 		int number = this.keyToId.keySet().size();

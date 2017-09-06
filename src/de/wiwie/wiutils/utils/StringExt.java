@@ -6,6 +6,8 @@ package de.wiwie.wiutils.utils;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author Christian Wiwie
  * 
@@ -75,9 +77,6 @@ public class StringExt {
 	}
 
 	/**
-	 * This split method doesn't use a regular expression (in contrast to
-	 * String.split() ). Instead it uses a StringTokenizer to iterate over the
-	 * substrings and creates an array of those, which is faster in most cases.
 	 * 
 	 * @param s
 	 *            The string to split.
@@ -87,21 +86,23 @@ public class StringExt {
 	 *         delimiter.
 	 */
 	public static String[] split(final String s, final String delimiter) {
-		StringTokenizer tok = new StringTokenizer(s, delimiter, false);
-		// if the empty string is separated, we need to manually add the string
-		// to the list
-		if (s.startsWith(delimiter)) {
-			final String[] elems = new String[tok.countTokens() + 1];
-			elems[0] = "";
-			for (int i = 1; i < elems.length; i++)
-				elems[i] = tok.nextToken();
-			return elems;
-		}
-
-		final String[] elems = new String[tok.countTokens()];
-		for (int i = 0; i < elems.length; i++)
-			elems[i] = tok.nextToken();
-		return elems;
+		// StringTokenizer tok = new StringTokenizer(s, delimiter, false);
+		// // if the empty string is separated, we need to manually add the
+		// string
+		// // to the list
+		// if (s.startsWith(delimiter)) {
+		// final String[] elems = new String[tok.countTokens() + 1];
+		// elems[0] = "";
+		// for (int i = 1; i < elems.length; i++)
+		// elems[i] = tok.nextToken();
+		// return elems;
+		// }
+		//
+		// final String[] elems = new String[tok.countTokens()];
+		// for (int i = 0; i < elems.length; i++)
+		// elems[i] = tok.nextToken();
+		// return elems;
+		return StringUtils.splitPreserveAllTokens(s, delimiter);
 	}
 
 	/**
@@ -129,10 +130,13 @@ public class StringExt {
 			}
 		} else
 			dots = "";
-		int prefixLength = (int) Math.round(Math.ceil((targetLength - dots.length()) / 2.0));
-		int postfixLength = (int) Math.round(Math.floor((targetLength - dots.length()) / 2.0));
+		int prefixLength = (int) Math
+				.round(Math.ceil((targetLength - dots.length()) / 2.0));
+		int postfixLength = (int) Math
+				.round(Math.floor((targetLength - dots.length()) / 2.0));
 		int prefixEndPos = Math.min(prefixLength, s.length());
-		int postfixStartPos = Math.max(s.length() - postfixLength, prefixEndPos);
+		int postfixStartPos = Math.max(s.length() - postfixLength,
+				prefixEndPos);
 		StringBuilder sb = new StringBuilder();
 		sb.append(s.substring(0, prefixEndPos));
 		sb.append(dots);
