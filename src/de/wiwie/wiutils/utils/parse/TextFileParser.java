@@ -93,16 +93,13 @@ public abstract class TextFileParser {
 	/**
 	 * The pattern build from the attributeLinePrefix
 	 */
-	protected Pattern attributeLinePrefixPattern = Pattern
-			.compile("\\s*" + attributeLinePrefix + ".*");
+	protected Pattern attributeLinePrefixPattern = Pattern.compile("\\s*" + attributeLinePrefix + ".*");
 
 	/**
 	 * Instantiates a new text file parser.
 	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param absFilePath the abs file path
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public TextFileParser(final String absFilePath) throws IOException {
 		this(absFilePath, null, null);
@@ -111,107 +108,75 @@ public abstract class TextFileParser {
 	/**
 	 * Instantiates a new text file parser.
 	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @param keyColumnIds
-	 *            the key column ids
-	 * @param valueColumnIds
-	 *            the value column ids
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param absFilePath    the abs file path
+	 * @param keyColumnIds   the key column ids
+	 * @param valueColumnIds the value column ids
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
-			final int[] valueColumnIds) throws IOException {
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds)
+			throws IOException {
 		this(absFilePath, keyColumnIds, valueColumnIds, null, null);
 	}
 
 	/**
 	 * Instantiates a new text file parser.
 	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @param keyColumnIds
-	 *            the key column ids
-	 * @param valueColumnIds
-	 *            the value column ids
+	 * @param absFilePath    the abs file path
+	 * @param keyColumnIds   the key column ids
+	 * @param valueColumnIds the value column ids
 	 * @param splitLines
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
-			final int[] valueColumnIds, final boolean splitLines)
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
+			final boolean splitLines) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null, null);
+	}
+
+	/**
+	 * Instantiates a new text file parser.
+	 * 
+	 * @param absFilePath    the abs file path
+	 * @param keyColumnIds   the key column ids
+	 * @param valueColumnIds the value column ids
+	 * @param splitLines
+	 * @param splitChar
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
+			final boolean splitLines, final String splitChar) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, splitChar, null, null);
+	}
+
+	/**
+	 * Instantiates a new text file parser.
+	 * 
+	 * @param absFilePath    the abs file path
+	 * @param keyColumnIds   the key column ids
+	 * @param valueColumnIds the value column ids
+	 * @param outputFile     the output file
+	 * @param outputMode     the output mode
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
+			final String outputFile, final OUTPUT_MODE outputMode) throws IOException {
+		this(absFilePath, keyColumnIds, valueColumnIds, true, null, outputFile, outputMode);
+	}
+
+	/**
+	 * Instantiates a new text file parser.
+	 * 
+	 * @param absFilePath    the abs file path
+	 * @param keyColumnIds   the key column ids
+	 * @param valueColumnIds the value column ids
+	 * @param splitLines     the split lines
+	 * @param splitChar
+	 * @param outputFile     the output file
+	 * @param outputMode     the output mode
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public TextFileParser(final String absFilePath, final int[] keyColumnIds, final int[] valueColumnIds,
+			final boolean splitLines, final String splitChar, final String outputFile, final OUTPUT_MODE outputMode)
 			throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, null, null,
-				null);
-	}
-
-	/**
-	 * Instantiates a new text file parser.
-	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @param keyColumnIds
-	 *            the key column ids
-	 * @param valueColumnIds
-	 *            the value column ids
-	 * @param splitLines
-	 * @param splitChar
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
-			final int[] valueColumnIds, final boolean splitLines,
-			final String splitChar) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, splitLines, splitChar,
-				null, null);
-	}
-
-	/**
-	 * Instantiates a new text file parser.
-	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @param keyColumnIds
-	 *            the key column ids
-	 * @param valueColumnIds
-	 *            the value column ids
-	 * @param outputFile
-	 *            the output file
-	 * @param outputMode
-	 *            the output mode
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
-			final int[] valueColumnIds, final String outputFile,
-			final OUTPUT_MODE outputMode) throws IOException {
-		this(absFilePath, keyColumnIds, valueColumnIds, true, null, outputFile,
-				outputMode);
-	}
-
-	/**
-	 * Instantiates a new text file parser.
-	 * 
-	 * @param absFilePath
-	 *            the abs file path
-	 * @param keyColumnIds
-	 *            the key column ids
-	 * @param valueColumnIds
-	 *            the value column ids
-	 * @param splitLines
-	 *            the split lines
-	 * @param splitChar
-	 * @param outputFile
-	 *            the output file
-	 * @param outputMode
-	 *            the output mode
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public TextFileParser(final String absFilePath, final int[] keyColumnIds,
-			final int[] valueColumnIds, final boolean splitLines,
-			final String splitChar, final String outputFile,
-			final OUTPUT_MODE outputMode) throws IOException {
 		super();
 		this.log = LoggerFactory.getLogger(this.getClass());
 		this.splitLines = splitLines;
@@ -225,8 +190,7 @@ public abstract class TextFileParser {
 		if (outputFile != null) {
 			this.outputFile = outputFile;
 			this.outputMode = outputMode;
-			this.outputWriter = new BufferedWriter(
-					new FileWriter(new File(this.outputFile)));
+			this.outputWriter = new BufferedWriter(new FileWriter(new File(this.outputFile)));
 		}
 
 		// by default we assume the file has only one column, in which the value
@@ -238,7 +202,7 @@ public abstract class TextFileParser {
 		}
 
 		if (valueColumnIds == null) {
-			this.valueColumns = new int[]{0};
+			this.valueColumns = new int[] { 0 };
 		} else {
 			this.valueColumns = valueColumnIds;
 		}
@@ -249,15 +213,11 @@ public abstract class TextFileParser {
 	/**
 	 * Check for output.
 	 * 
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param key   the key
+	 * @param value the value
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private void checkForOutput(final String[] key, final String[] value)
-			throws IOException {
+	private void checkForOutput(final String[] key, final String[] value) throws IOException {
 		String output = null;
 		if ((output = this.getLineOutput(key, value)) != null) {
 			this.parsedLines++;
@@ -268,8 +228,7 @@ public abstract class TextFileParser {
 	/**
 	 * Close streams.
 	 * 
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	protected void closeStreams() throws IOException {
 		if (this.fileReader != null) {
@@ -287,8 +246,7 @@ public abstract class TextFileParser {
 	/**
 	 * Combine columns.
 	 * 
-	 * @param keyColumnEntries
-	 *            the key column entries
+	 * @param keyColumnEntries the key column entries
 	 * @return the string
 	 */
 	protected String combineColumns(final String... keyColumnEntries) {
@@ -306,8 +264,7 @@ public abstract class TextFileParser {
 	 * Count lines.
 	 * 
 	 * @return the long
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	protected long countLines() throws IOException {
 		this.resetReader();
@@ -363,8 +320,7 @@ public abstract class TextFileParser {
 	 * Count columns in file.
 	 * 
 	 * @return the int
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private int countColumnsInFile() throws IOException {
 		this.resetReader();
@@ -394,8 +350,7 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the total line count.
 	 * 
-	 * @param lineCount
-	 *            the new total line count
+	 * @param lineCount the new total line count
 	 */
 	protected void setTotalLineCount(long lineCount) {
 		this.totalLineCount = lineCount;
@@ -404,8 +359,7 @@ public abstract class TextFileParser {
 	/**
 	 * Extract key entries.
 	 * 
-	 * @param lineSplit
-	 *            the line split
+	 * @param lineSplit the line split
 	 * @return the string[]
 	 */
 	protected String[] extractKeyEntries(final String[] lineSplit) {
@@ -422,8 +376,7 @@ public abstract class TextFileParser {
 	/**
 	 * Extract value entries.
 	 * 
-	 * @param lineSplit
-	 *            the line split
+	 * @param lineSplit the line split
 	 * @return the string[]
 	 */
 	protected String[] extractValueEntries(final String[] lineSplit) {
@@ -446,11 +399,10 @@ public abstract class TextFileParser {
 
 	/**
 	 * This method determines, whether a line is processed or not. By default no
-	 * filtering takes place and it returns true always. If you want to filter,
-	 * you have to override this method in your subclasses.
+	 * filtering takes place and it returns true always. If you want to filter, you
+	 * have to override this method in your subclasses.
 	 * 
-	 * @param line
-	 *            The line to check for filtering.
+	 * @param line The line to check for filtering.
 	 * @return True if the line has to be processed, false otherwise.
 	 */
 	protected boolean checkLine(final String line) {
@@ -492,10 +444,8 @@ public abstract class TextFileParser {
 	/**
 	 * Gets the line output.
 	 * 
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
+	 * @param key   the key
+	 * @param value the value
 	 * @return the line output
 	 */
 	protected String getLineOutput(final String[] key, final String[] value) {
@@ -512,8 +462,7 @@ public abstract class TextFileParser {
 	/**
 	 * Inits the process.
 	 * 
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void initProcess() throws IOException {
 		// TODO: replaced lock-file by common files that are synchronized
@@ -552,16 +501,14 @@ public abstract class TextFileParser {
 	 * Process.
 	 * 
 	 * @return the text file parser
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public TextFileParser process() throws IOException {
 		this.initProcess();
 		// 04.10.2012: introduced new locking mechanism
 		File targetFile;
 		if (this.exclusiveLockOnTargetFile)
-			targetFile = FileUtils
-					.getCommonFile(new File(this.absoluteFilePath));
+			targetFile = FileUtils.getCommonFile(new File(this.absoluteFilePath));
 		else
 			targetFile = new File(this.absoluteFilePath);
 
@@ -579,8 +526,7 @@ public abstract class TextFileParser {
 				try {
 					this.currentLine++;
 					// skip empty lines
-					if (line.isEmpty() && this.skipEmptyLines
-							|| !checkLine(line)) {
+					if (line.isEmpty() && this.skipEmptyLines || !checkLine(line)) {
 						continue;
 					}
 					String[] lineSplit = null;
@@ -589,15 +535,12 @@ public abstract class TextFileParser {
 					} catch (NullPointerException e) {
 						System.out.println("test");
 					}
-					final String[] keyEntries = this
-							.extractKeyEntries(lineSplit);
-					final String[] valueEntries = this
-							.extractValueEntries(lineSplit);
+					final String[] keyEntries = this.extractKeyEntries(lineSplit);
+					final String[] valueEntries = this.extractValueEntries(lineSplit);
 					this.key = keyEntries;// this.combineColumns(keyEntries);
 					this.value = valueEntries;// this.combineColumns(valueEntries);
 					this.processLine(this.key, this.value);
-					if (this.outputFile != null
-							&& this.outputMode.equals(OUTPUT_MODE.STREAM)) {
+					if (this.outputFile != null && this.outputMode.equals(OUTPUT_MODE.STREAM)) {
 						this.checkForOutput(this.key, this.value);
 					}
 
@@ -605,14 +548,12 @@ public abstract class TextFileParser {
 						this.progress.update(lineNumber + 1);
 					lineNumber++;
 				} catch (IndexOutOfBoundsException e) {
-					log.error("Error while parsing line " + currentLine
-							+ " of file " + this.absoluteFilePath);
+					log.error("Error while parsing line " + currentLine + " of file " + this.absoluteFilePath);
 					e.printStackTrace();
 					throw e;
 				}
 			}
-			if (this.outputFile != null
-					&& this.outputMode.equals(OUTPUT_MODE.BURST)) {
+			if (this.outputFile != null && this.outputMode.equals(OUTPUT_MODE.BURST)) {
 				this.checkForBurstOutput();
 			}
 
@@ -636,26 +577,21 @@ public abstract class TextFileParser {
 		// return this.splitLines
 		// ? line.split(this.inSplit, -1)
 		// : new String[]{line};
-		return this.splitLines
-				? StringExt.split(line, this.inSplit)
-				: new String[]{line};
+		return this.splitLines ? StringExt.split(line, this.inSplit) : new String[] { line };
 	}
 
 	/**
 	 * Process line.
 	 * 
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
+	 * @param key   the key
+	 * @param value the value
 	 */
 	protected abstract void processLine(String[] key, String[] value);
 
 	/**
 	 * Process burst output.
 	 * 
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void checkForBurstOutput() throws IOException {
 		String output = null;
@@ -673,8 +609,7 @@ public abstract class TextFileParser {
 	 * Read line.
 	 * 
 	 * @return the string
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String readLine() throws IOException {
 		return this.fileReader.readLine();
@@ -683,29 +618,25 @@ public abstract class TextFileParser {
 	/**
 	 * Reset reader.
 	 * 
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	protected void resetReader() throws IOException {
 		if (this.fileReader != null) {
 			this.fileReader.close();
 		}
-		this.fileReader = new BufferedReader(
-				new FileReader(new File(this.absoluteFilePath)));
+		this.fileReader = new BufferedReader(new FileReader(new File(this.absoluteFilePath)));
 		if (this.outputFile != null) {
 			if (this.outputWriter != null) {
 				this.outputWriter.close();
 			}
-			this.outputWriter = new BufferedWriter(
-					new FileWriter(new File(this.outputFile)));
+			this.outputWriter = new BufferedWriter(new FileWriter(new File(this.outputFile)));
 		}
 	}
 
 	/**
 	 * Sets the lock target file.
 	 * 
-	 * @param lock
-	 *            the new lock target file
+	 * @param lock the new lock target file
 	 */
 	public void setLockTargetFile(final boolean lock) {
 		this.exclusiveLockOnTargetFile = lock;
@@ -714,8 +645,7 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the output file.
 	 * 
-	 * @param outFile
-	 *            the new output file
+	 * @param outFile the new output file
 	 */
 	public void setOutputFile(final String outFile) {
 		this.outputFile = outFile;
@@ -734,8 +664,7 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the output mode.
 	 * 
-	 * @param outMode
-	 *            the new output mode
+	 * @param outMode the new output mode
 	 */
 	public void setOutputMode(final OUTPUT_MODE outMode) {
 		this.outputMode = outMode;
@@ -744,10 +673,8 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the file.
 	 * 
-	 * @param absFilePath
-	 *            the new file
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param absFilePath the new file
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setFile(final String absFilePath) throws IOException {
 		this.absoluteFilePath = absFilePath;
@@ -766,8 +693,7 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the skip empty lines.
 	 * 
-	 * @param skipEmptyLines
-	 *            the new skip empty lines
+	 * @param skipEmptyLines the new skip empty lines
 	 */
 	public void setSkipEmptyLines(final boolean skipEmptyLines) {
 		this.skipEmptyLines = skipEmptyLines;
@@ -776,8 +702,7 @@ public abstract class TextFileParser {
 	/**
 	 * Sets the split char.
 	 * 
-	 * @param split
-	 *            the new split char
+	 * @param split the new split char
 	 */
 	public void setSplitChar(final String split) {
 		this.inSplit = split;
@@ -802,8 +727,7 @@ public abstract class TextFileParser {
 	/**
 	 * Try find split.
 	 * 
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void tryFindSplit() throws IOException {
 		this.parsingComments = true;
@@ -819,8 +743,7 @@ public abstract class TextFileParser {
 		} else if (StringExt.split(line, " ").length > 1) {
 			this.inSplit = " ";
 		} else {
-			throw new IOException(
-					"Unknown split character. Please set it manually.");
+			throw new IOException("Unknown split character. Please set it manually.");
 		}
 		this.parsingComments = true;
 	}
